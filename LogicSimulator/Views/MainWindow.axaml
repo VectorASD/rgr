@@ -13,5 +13,5 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="Ôîðìàò õðàíåíèÿ ïðîåêòîâ ñî ñõåìàìè: XML&#13;Ôîðìàò õðàíåíèÿ ñïèñêà îòêðûòûõ ïðîåêòîâ: YAML&#13;Äîïîëíèòåëüíûé âåíòèëü: PSum (Ïîëó-ñóììàòîð)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+    <TextBlock Text="Ð¤Ð¾Ñ€Ð¼Ð°Ñ‚ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð¾Ð² ÑÐ¾ ÑÑ…ÐµÐ¼Ð°Ð¼Ð¸: XML&#13;Ð¤Ð¾Ñ€Ð¼Ð°Ñ‚ Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ ÑÐ¿Ð¸ÑÐºÐ° Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ñ‹Ñ… Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð¾Ð²: YAML&#13;Ð”Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð²ÐµÐ½Ñ‚Ð¸Ð»ÑŒ: PSum (ÐŸÐ¾Ð»Ñƒ-ÑÑƒÐ¼Ð¼Ð°Ñ‚Ð¾Ñ€)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
 </Window>
