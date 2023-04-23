@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="Какое-то имячко..." created="$1682262633" modified="$1682273908">
+<Dict name="Какое-то имячко..." created="$1682262633" modified="$1682283072">
 	<items>
-		<List/>
+		<List>
+			<Dict id="$0" pos="$p$325,232" size="$s$140,90"/>
+		</List>
 	</items>
 	<joins>
 		<List/>
 	</joins>
 	<states>
-		<List/>
+		<List _0='_BOOL_nop' _1='_BOOL_nop'/>
 	</states>
 </Dict>
