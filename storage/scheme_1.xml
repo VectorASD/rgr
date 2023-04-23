@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dict name="Какое-то имячко..." created="$1682262633" modified="$1682288312">
+	<items>
+		<List>
+			<Dict id="$5" pos="$p$109,198" size="$s$73,73" state="_BOOL_yeah"/>
+			<Dict id="$6" pos="$p$120,296" size="$s$71,71"/>
+			<Dict id="$0" pos="$p$340,237" size="$s$92,90"/>
+			<Dict id="$7" pos="$p$535,243" size="$s$76,74"/>
+			<Dict id="$4" pos="$p$307,477" size="$s$90,90"/>
+			<Dict id="$5" pos="$p$124,440" size="$s$75,75" state="_BOOL_nop"/>
+			<Dict id="$5" pos="$p$132,543" size="$s$68,72" state="_BOOL_yeah"/>
+			<Dict id="$7" pos="$p$513,439" size="$s$75,75"/>
+			<Dict id="$7" pos="$p$511,532" size="$s$75,75"/>
+		</List>
+	</items>
+	<joins>
+		<List>
+			<List _0='$0' _1='$0' _2='Out' _3='$2' _4='$0' _5='In'/>
+			<List _0='$1' _1='$0' _2='Out' _3='$2' _4='$1' _5='In'/>
+			<List _0='$2' _1='$2' _2='Out' _3='$3' _4='$0' _5='In'/>
+			<List _0='$5' _1='$0' _2='Out' _3='$4' _4='$0' _5='In'/>
+			<List _0='$6' _1='$0' _2='Out' _3='$4' _4='$1' _5='In'/>
+			<List _0='$4' _1='$2' _2='Out' _3='$7' _4='$0' _5='In'/>
+			<List _0='$4' _1='$3' _2='Out' _3='$8' _4='$0' _5='In'/>
+		</List>
+	</joins>
+	<states>
+		<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_nop' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_yeah'/>
+	</states>
+</Dict>
