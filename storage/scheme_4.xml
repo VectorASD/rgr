@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="Вторая схемочка" created="$1682493326" modified="$1682494843">
+<Dict name="Вторая схемочка" created="$1682493326" modified="$1682496687">
 	<items>
 		<List>
-			<Dict id="$0" pos="$p$238,190" size="$s$82,82"/>
-			<Dict id="$2" pos="$p$401,204" size="$s$82,61"/>
-			<Dict id="$8" pos="$p$291,346" size="$s$90,90"/>
-			<Dict id="$7" pos="$p$559,190" size="$s$75,75"/>
-			<Dict id="$7" pos="$p$559,343" size="$s$75,75"/>
-			<Dict id="$5" pos="$p$19,295" size="$s$75,75" state="_BOOL_yeah"/>
-			<Dict id="$5" pos="$p$43,413" size="$s$75,75" state="_BOOL_nop"/>
+			<Dict id="$8" pos="$p$127,250" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$301,250" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$463,248" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$627,249" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$629,425" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$459,427" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$292,423" size="$s$90,90"/>
+			<Dict id="$8" pos="$p$118,421" size="$s$90,90"/>
+			<Dict id="$6" pos="$p$-4,344" size="$s$75,75"/>
+			<Dict id="$2" pos="$p$164,345" size="$s$90,75"/>
+			<Dict id="$7" pos="$p$704,128" size="$s$75,75"/>
+			<Dict id="$7" pos="$p$698,564" size="$s$75,75"/>
 		</List>
 	</items>
 	<joins>
 		<List>
 			<List _0='$0' _1='$2' _2='Out' _3='$1' _4='$0' _5='In'/>
-			<List _0='$3' _1='$0' _2='In' _3='$1' _4='$1' _5='Out'/>
-			<List _0='$2' _1='$2' _2='Out' _3='$4' _4='$0' _5='In'/>
-			<List _0='$5' _1='$0' _2='Out' _3='$0' _4='$0' _5='In'/>
-			<List _0='$5' _1='$0' _2='Out' _3='$2' _4='$0' _5='In'/>
-			<List _0='$6' _1='$0' _2='Out' _3='$0' _4='$1' _5='In'/>
-			<List _0='$6' _1='$0' _2='Out' _3='$2' _4='$1' _5='In'/>
+			<List _0='$1' _1='$2' _2='Out' _3='$2' _4='$0' _5='In'/>
+			<List _0='$1' _1='$2' _2='Out' _3='$6' _4='$0' _5='In'/>
+			<List _0='$2' _1='$2' _2='Out' _3='$3' _4='$0' _5='In'/>
+			<List _0='$3' _1='$2' _2='Out' _3='$4' _4='$0' _5='In'/>
+			<List _0='$3' _1='$2' _2='Out' _3='$7' _4='$0' _5='In'/>
+			<List _0='$10' _1='$0' _2='In' _3='$3' _4='$2' _5='Out'/>
+			<List _0='$4' _1='$2' _2='Out' _3='$11' _4='$0' _5='In'/>
+			<List _0='$4' _1='$2' _2='Out' _3='$3' _4='$1' _5='In'/>
+			<List _0='$4' _1='$2' _2='Out' _3='$0' _4='$1' _5='In'/>
+			<List _0='$5' _1='$2' _2='Out' _3='$4' _4='$1' _5='In'/>
+			<List _0='$6' _1='$2' _2='Out' _3='$5' _4='$1' _5='In'/>
+			<List _0='$6' _1='$2' _2='Out' _3='$1' _4='$1' _5='In'/>
+			<List _0='$7' _1='$2' _2='Out' _3='$6' _4='$1' _5='In'/>
+			<List _0='$8' _1='$0' _2='Out' _3='$0' _4='$0' _5='In'/>
+			<List _0='$8' _1='$0' _2='Out' _3='$7' _4='$1' _5='In'/>
+			<List _0='$8' _1='$0' _2='Out' _3='$9' _4='$0' _5='In'/>
+			<List _0='$9' _1='$1' _2='Out' _3='$2' _4='$1' _5='In'/>
+			<List _0='$9' _1='$1' _2='Out' _3='$5' _4='$0' _5='In'/>
 		</List>
 	</joins>
 	<states>
-		<List _0='_BOOL_nop' _1='_BOOL_nop' _2='_BOOL_yeah' _3='_BOOL_yeah' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_nop' _13='_BOOL_nop' _14='_BOOL_nop' _15='_BOOL_nop' _16='_BOOL_nop' _17='_BOOL_nop' _18='_BOOL_nop'/>
+		<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_yeah' _4='_BOOL_nop' _5='_BOOL_yeah' _6='_BOOL_nop' _7='_BOOL_yeah' _8='_BOOL_yeah' _9='_BOOL_nop' _10='_BOOL_yeah' _11='_BOOL_nop' _12='_BOOL_nop' _13='_BOOL_nop' _14='_BOOL_nop' _15='_BOOL_nop' _16='_BOOL_nop' _17='_BOOL_nop' _18='_BOOL_nop' _19='_BOOL_nop' _20='_BOOL_nop' _21='_BOOL_nop' _22='_BOOL_nop' _23='_BOOL_nop' _24='_BOOL_nop' _25='_BOOL_nop' _26='_BOOL_nop' _27='_BOOL_nop' _28='_BOOL_nop' _29='_BOOL_nop'/>
 	</states>
 </Dict>
