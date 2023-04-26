@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dict name="Вторая схемочка" created="$1682493326" modified="$1682494375">
+	<items>
+		<List>
+			<Dict id="$0" pos="$p$201,179" size="$s$82,82"/>
+			<Dict id="$2" pos="$p$340,191" size="$s$82,61"/>
+		</List>
+	</items>
+	<joins>
+		<List>
+			<List _0='$0' _1='$2' _2='Out' _3='$1' _4='$0' _5='In'/>
+		</List>
+	</joins>
+	<states>
+		<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_yeah' _3='_BOOL_nop' _4='_BOOL_nop' _5='_BOOL_yeah' _6='_BOOL_yeah' _7='_BOOL_yeah' _8='_BOOL_yeah' _9='_BOOL_nop' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_nop' _13='_BOOL_yeah' _14='_BOOL_yeah'/>
+	</states>
+</Dict>

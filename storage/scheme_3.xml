@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="Схемочка" created="$1682485979" modified="$1682486044">
+<Dict name="Схемочка" created="$1682485979" modified="$1682493993">
 	<items>
 		<List>
 			<Dict id="$2" pos="$p$180,300" size="$s$90,75"/>
@@ -19,6 +19,6 @@
 		</List>
 	</joins>
 	<states>
-		<List _0='_BOOL_nop' _1='_BOOL_nop' _2='_BOOL_yeah' _3='_BOOL_nop' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_yeah' _8='_BOOL_yeah' _9='_BOOL_nop'/>
+		<List _0='_BOOL_nop' _1='_BOOL_nop' _2='_BOOL_yeah' _3='_BOOL_nop' _4='_BOOL_nop' _5='_BOOL_yeah' _6='_BOOL_yeah' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop'/>
 	</states>
 </Dict>
