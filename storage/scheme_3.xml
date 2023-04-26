@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Dict name="Схемочка" created="$1682485979" modified="$1682486044">
+	<items>
+		<List>
+			<Dict id="$2" pos="$p$180,300" size="$s$90,75"/>
+			<Dict id="$2" pos="$p$190,405" size="$s$90,75"/>
+			<Dict id="$2" pos="$p$354,407" size="$s$90,75"/>
+			<Dict id="$2" pos="$p$517,314" size="$s$90,75"/>
+			<Dict id="$2" pos="$p$424,501" size="$s$90,75"/>
+		</List>
+	</items>
+	<joins>
+		<List>
+			<List _0='$0' _1='$1' _2='Out' _3='$0' _4='$0' _5='In'/>
+			<List _0='$1' _1='$0' _2='In' _3='$1' _4='$1' _5='Out'/>
+			<List _0='$2' _1='$1' _2='Out' _3='$4' _4='$0' _5='In'/>
+			<List _0='$3' _1='$1' _2='Out' _3='$2' _4='$0' _5='In'/>
+			<List _0='$3' _1='$0' _2='In' _3='$4' _4='$1' _5='Out'/>
+		</List>
+	</joins>
+	<states>
+		<List _0='_BOOL_nop' _1='_BOOL_nop' _2='_BOOL_yeah' _3='_BOOL_nop' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_yeah' _8='_BOOL_yeah' _9='_BOOL_nop'/>
+	</states>
+</Dict>
