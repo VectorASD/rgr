@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="Схемочка" created="$1682485979" modified="$1683440981">
+<Dict name="Схемочка" created="$1682485979" modified="$1683441590">
 	<items>
 		<List>
-			<Dict id="$2" pos="$p$202,259" size="$s$50,42" base_size="$14.111848251344433"/>
-			<Dict id="$2" pos="$p$202,380" size="$s$50,42" base_size="$14.111848251344433"/>
-			<Dict id="$2" pos="$p$295,381" size="$s$50,42" base_size="$14.111848251344433"/>
-			<Dict id="$2" pos="$p$387,328" size="$s$50,42" base_size="$14.111848251344433"/>
-			<Dict id="$2" pos="$p$335,433" size="$s$50,42" base_size="$14.111848251344433"/>
-			<Dict id="$0" pos="$p$336,249" size="$s$50,50" base_size="$14.111848251344433"/>
-			<Dict id="$0" pos="$p$470,265" size="$s$50,50" base_size="$14.111848251344433"/>
+			<Dict id="$2" pos="$p$151,234" size="$s$107,90" base_size="$30.25000000000001"/>
+			<Dict id="$2" pos="$p$151,493" size="$s$107,90" base_size="$30.25000000000001"/>
+			<Dict id="$2" pos="$p$350,495" size="$s$107,90" base_size="$30.25000000000001"/>
+			<Dict id="$2" pos="$p$548,382" size="$s$107,90" base_size="$30.25000000000001"/>
+			<Dict id="$2" pos="$p$436,607" size="$s$107,90" base_size="$30.25000000000001"/>
+			<Dict id="$0" pos="$p$438,212" size="$s$107,107" base_size="$30.25000000000001"/>
+			<Dict id="$0" pos="$p$726,246" size="$s$107,107" base_size="$30.25000000000001"/>
 		</List>
 	</items>
 	<joins>
@@ -24,6 +24,6 @@
 		</List>
 	</joins>
 	<states>
-		<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_yeah' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_nop'/>
+		<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_yeah' _4='_BOOL_nop' _5='_BOOL_yeah' _6='_BOOL_nop' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_nop'/>
 	</states>
 </Dict>
