@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="Схемочка" created="$1682485979" modified="$1682493993">
+<Dict name="Схемочка" created="$1682485979" modified="$1683440981">
 	<items>
 		<List>
-			<Dict id="$2" pos="$p$180,300" size="$s$90,75"/>
-			<Dict id="$2" pos="$p$190,405" size="$s$90,75"/>
-			<Dict id="$2" pos="$p$354,407" size="$s$90,75"/>
-			<Dict id="$2" pos="$p$517,314" size="$s$90,75"/>
-			<Dict id="$2" pos="$p$424,501" size="$s$90,75"/>
+			<Dict id="$2" pos="$p$202,259" size="$s$50,42" base_size="$14.111848251344433"/>
+			<Dict id="$2" pos="$p$202,380" size="$s$50,42" base_size="$14.111848251344433"/>
+			<Dict id="$2" pos="$p$295,381" size="$s$50,42" base_size="$14.111848251344433"/>
+			<Dict id="$2" pos="$p$387,328" size="$s$50,42" base_size="$14.111848251344433"/>
+			<Dict id="$2" pos="$p$335,433" size="$s$50,42" base_size="$14.111848251344433"/>
+			<Dict id="$0" pos="$p$336,249" size="$s$50,50" base_size="$14.111848251344433"/>
+			<Dict id="$0" pos="$p$470,265" size="$s$50,50" base_size="$14.111848251344433"/>
 		</List>
 	</items>
 	<joins>
 		<List>
 			<List _0='$0' _1='$1' _2='Out' _3='$0' _4='$0' _5='In'/>
+			<List _0='$5' _1='$1' _2='In' _3='$0' _4='$1' _5='Out'/>
+			<List _0='$0' _1='$1' _2='Out' _3='$5' _4='$0' _5='In'/>
 			<List _0='$1' _1='$0' _2='In' _3='$1' _4='$1' _5='Out'/>
 			<List _0='$2' _1='$1' _2='Out' _3='$4' _4='$0' _5='In'/>
 			<List _0='$3' _1='$1' _2='Out' _3='$2' _4='$0' _5='In'/>
 			<List _0='$3' _1='$0' _2='In' _3='$4' _4='$1' _5='Out'/>
+			<List _0='$5' _1='$2' _2='Out' _3='$6' _4='$0' _5='In'/>
 		</List>
 	</joins>
 	<states>
-		<List _0='_BOOL_nop' _1='_BOOL_nop' _2='_BOOL_yeah' _3='_BOOL_nop' _4='_BOOL_nop' _5='_BOOL_yeah' _6='_BOOL_yeah' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop'/>
+		<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_yeah' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_nop'/>
 	</states>
 </Dict>
