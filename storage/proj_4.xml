@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="Опять проект" created="$1683542917" modified="$1683544719">
+<Dict name="Опять проект" created="$1683542917" modified="$1683545790">
 	<schemes>
 		<List>
-			<Dict name="Схема раз" created="$1683542917" modified="$1683543450">
+			<Dict name="Схема раз" created="$1683542917" modified="$1683545641" states="010000001100000">
 				<items>
 					<List>
 						<Dict id="$9" pos="$p$470,434" size="$s$153,153" base_size="$36.60250000000002" state="0.0.0.1.0.0"/>
@@ -24,11 +24,8 @@
 						<List _0='$3' _1='$0' _2='Out' _3='$0' _4='$0' _5='In'/>
 					</List>
 				</joins>
-				<states>
-					<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_nop' _4='_BOOL_nop' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_nop' _8='_BOOL_yeah' _9='_BOOL_yeah' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_nop' _13='_BOOL_nop' _14='_BOOL_nop'/>
-				</states>
 			</Dict>
-			<Dict name="Схема двас" created="$1683542945" modified="$1683543304">
+			<Dict name="Схема двас" created="$1683542945" modified="$1683545643" states="01100000">
 				<items>
 					<List>
 						<Dict id="$8" pos="$p$671,505" size="$s$131,131" base_size="$36.602500000000035"/>
@@ -47,23 +44,20 @@
 						<List _0='$4' _1='$0' _2='Out' _3='$0' _4='$1' _5='In'/>
 					</List>
 				</joins>
-				<states>
-					<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_nop' _4='_BOOL_nop' _5='_BOOL_nop' _6='_BOOL_nop' _7='_BOOL_nop'/>
-				</states>
 			</Dict>
-			<Dict name="Пароль плиз" created="$1683542946" modified="$1683544719">
+			<Dict name="Пароль плиз" created="$1683542946" modified="$1683545790" states="00010001100001100111111111111011111111100000000000000000000000000000">
 				<items>
 					<List>
 						<Dict id="$9" pos="$p$368,578" size="$s$105,105" base_size="$25.00000000000007" state="0.1.0.0.0.1"/>
-						<Dict id="$9" pos="$p$365,465" size="$s$105,105" base_size="$25.00000000000007" state="1.0.0.0.1.0"/>
-						<Dict id="$9" pos="$p$368,356" size="$s$105,105" base_size="$25.00000000000007" state="1.1.0.0.1.1"/>
-						<Dict id="$2" pos="$p$114,658" size="$s$75,75" base_size="$25.00000000000007"/>
+						<Dict id="$9" pos="$p$365,465" size="$s$105,105" base_size="$25.00000000000007" state="0.0.0.0.0.0"/>
+						<Dict id="$9" pos="$p$368,356" size="$s$105,105" base_size="$25.00000000000007" state="1.0.0.1.1.0"/>
+						<Dict id="$2" pos="$p$114,658" size="$s$82,75" base_size="$25.00000000000007"/>
 						<Dict id="$0" pos="$p$227,604" size="$s$74,74" base_size="$20.661157024793425"/>
 						<Dict id="$5" pos="$p$108,581" size="$s$61,61" base_size="$20.661157024793425" state="_BOOL_nop"/>
 						<Dict id="$5" pos="$p$141,162" size="$s$51,51" base_size="$17.0753363841268" state="_BOOL_yeah"/>
-						<Dict id="$5" pos="$p$210,162" size="$s$51,51" base_size="$17.0753363841268" state="_BOOL_nop"/>
+						<Dict id="$5" pos="$p$210,162" size="$s$51,51" base_size="$17.0753363841268" state="_BOOL_yeah"/>
 						<Dict id="$5" pos="$p$279,162" size="$s$51,51" base_size="$17.0753363841268" state="_BOOL_nop"/>
-						<Dict id="$5" pos="$p$351,162" size="$s$51,51" base_size="$17.0753363841268" state="_BOOL_yeah"/>
+						<Dict id="$5" pos="$p$351,162" size="$s$51,51" base_size="$17.0753363841268" state="_BOOL_nop"/>
 						<Dict id="$3" pos="$p$569,589" size="$s$46,46" base_size="$12.828952955767672"/>
 						<Dict id="$3" pos="$p$569,636" size="$s$46,46" base_size="$12.828952955767672"/>
 						<Dict id="$3" pos="$p$568,544" size="$s$46,46" base_size="$12.828952955767672"/>
@@ -77,7 +71,7 @@
 						<Dict id="$5" pos="$p$275,215" size="$s$51,51" base_size="$17.075336384126786" state="_BOOL_yeah"/>
 						<Dict id="$5" pos="$p$206,215" size="$s$51,51" base_size="$17.075336384126786" state="_BOOL_yeah"/>
 						<Dict id="$5" pos="$p$139,216" size="$s$51,51" base_size="$17.075336384126786" state="_BOOL_nop"/>
-						<Dict id="$5" pos="$p$421,188" size="$s$51,51" base_size="$17.075336384126786" state="_BOOL_nop"/>
+						<Dict id="$5" pos="$p$420,188" size="$s$51,51" base_size="$17.075336384126786" state="_BOOL_yeah"/>
 						<Dict id="$0" pos="$p$642,613" size="$s$41,41" base_size="$11.662684505243336"/>
 						<Dict id="$0" pos="$p$644,565" size="$s$41,41" base_size="$11.662684505243336"/>
 						<Dict id="$0" pos="$p$643,521" size="$s$41,41" base_size="$11.662684505243336"/>
@@ -140,9 +134,6 @@
 						<List _0='$31' _1='$2' _2='Out' _3='$32' _4='$0' _5='In'/>
 					</List>
 				</joins>
-				<states>
-					<List _0='_BOOL_nop' _1='_BOOL_nop' _2='_BOOL_nop' _3='_BOOL_yeah' _4='_BOOL_nop' _5='_BOOL_nop' _6='_BOOL_yeah' _7='_BOOL_nop' _8='_BOOL_nop' _9='_BOOL_nop' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_yeah' _13='_BOOL_yeah' _14='_BOOL_yeah' _15='_BOOL_yeah' _16='_BOOL_yeah' _17='_BOOL_nop' _18='_BOOL_nop' _19='_BOOL_nop' _20='_BOOL_nop' _21='_BOOL_yeah' _22='_BOOL_yeah' _23='_BOOL_yeah' _24='_BOOL_yeah' _25='_BOOL_yeah' _26='_BOOL_yeah' _27='_BOOL_yeah' _28='_BOOL_nop' _29='_BOOL_nop' _30='_BOOL_yeah' _31='_BOOL_yeah' _32='_BOOL_nop' _33='_BOOL_yeah' _34='_BOOL_yeah' _35='_BOOL_yeah' _36='_BOOL_yeah' _37='_BOOL_yeah' _38='_BOOL_yeah' _39='_BOOL_yeah' _40='_BOOL_yeah' _41='_BOOL_yeah' _42='_BOOL_nop' _43='_BOOL_nop' _44='_BOOL_yeah' _45='_BOOL_yeah' _46='_BOOL_yeah' _47='_BOOL_yeah' _48='_BOOL_yeah' _49='_BOOL_nop' _50='_BOOL_nop' _51='_BOOL_yeah' _52='_BOOL_nop' _53='_BOOL_nop' _54='_BOOL_nop' _55='_BOOL_nop' _56='_BOOL_nop' _57='_BOOL_yeah' _58='_BOOL_nop' _59='_BOOL_nop' _60='_BOOL_yeah' _61='_BOOL_yeah' _62='_BOOL_yeah' _63='_BOOL_yeah' _64='_BOOL_yeah' _65='_BOOL_yeah' _66='_BOOL_yeah' _67='_BOOL_yeah'/>
-				</states>
 			</Dict>
 		</List>
 	</schemes>

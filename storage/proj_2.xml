@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="10 битов..." created="$1682290321" modified="$1683541061">
+<Dict name="10 битов..." created="$1682290321" modified="$1683545675">
 	<schemes>
 		<List>
-			<Dict name="Newy" created="$1682290321" modified="$1683541061">
+			<Dict name="Newy" created="$1682290321" modified="$1683545675" states="010010110100110100101100">
 				<items>
 					<List>
 						<Dict id="$2" pos="$p$79,145" size="$s$90,75" base_size="$25"/>
@@ -80,9 +80,6 @@
 						<List _0='$34' _1='$0' _2='Out' _3='$20' _4='$0' _5='In'/>
 					</List>
 				</joins>
-				<states>
-					<List _0='_BOOL_nop' _1='_BOOL_yeah' _2='_BOOL_nop' _3='_BOOL_nop' _4='_BOOL_yeah' _5='_BOOL_nop' _6='_BOOL_yeah' _7='_BOOL_yeah' _8='_BOOL_nop' _9='_BOOL_yeah' _10='_BOOL_nop' _11='_BOOL_nop' _12='_BOOL_yeah' _13='_BOOL_yeah' _14='_BOOL_nop' _15='_BOOL_yeah' _16='_BOOL_nop' _17='_BOOL_nop' _18='_BOOL_yeah' _19='_BOOL_nop' _20='_BOOL_yeah' _21='_BOOL_yeah' _22='_BOOL_nop' _23='_BOOL_nop'/>
-				</states>
 			</Dict>
 		</List>
 	</schemes>
