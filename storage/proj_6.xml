@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Dict name="ОСНОВА" created="$1683554263" modified="$1683858871">
+<Dict name="ОСНОВА" created="$1683554263" modified="$1683994865">
 	<schemes>
 		<List>
-			<Dict name="Первая схема" created="$1683554263" modified="$1683856928" states="0101000">
+			<Dict name="Первая схема" created="$1683554263" modified="$1683994828" states="0101000">
 				<items>
 					<List>
 						<Dict id="$9" pos="$p$425,410" size="$s$168,168" base_size="$40.262750000000146" state="0.0.0.1.0.1"/>
 						<Dict id="$6" pos="$p$78,327" size="$s$74,74" base_size="$25.000000000000078"/>
 						<Dict id="$6" pos="$p$79,409" size="$s$74,74" base_size="$25.000000000000078"/>
 						<Dict id="$6" pos="$p$82,485" size="$s$74,74" base_size="$25.000000000000078"/>
-						<Dict id="$7" pos="$p$730,324" size="$s$67,67" base_size="$22.727272727272748"/>
-						<Dict id="$7" pos="$p$732,398" size="$s$67,67" base_size="$22.727272727272748"/>
-						<Dict id="$7" pos="$p$733,468" size="$s$67,67" base_size="$22.727272727272748"/>
+						<Dict id="$7" pos="$p$730,324" size="$s$67,67" base_size="$22.727272727272748" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$732,398" size="$s$67,67" base_size="$22.727272727272748" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$733,468" size="$s$67,67" base_size="$22.727272727272748" state="_BOOL_yeah"/>
 					</List>
 				</items>
 				<joins>
@@ -25,7 +25,7 @@
 					</List>
 				</joins>
 			</Dict>
-			<Dict name="Сумматор из PS" created="$1683554405" modified="$1683856914" states="001001101">
+			<Dict name="Сумматор из PS" created="$1683554405" modified="$1683994834" states="001001101">
 				<items>
 					<List>
 						<Dict id="$4" pos="$p$304,454" size="$s$90,90" base_size="$25"/>
@@ -34,8 +34,8 @@
 						<Dict id="$5" pos="$p$136,430" size="$s$75,75" base_size="$25" state="_BOOL_yeah"/>
 						<Dict id="$5" pos="$p$141,339" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
 						<Dict id="$1" pos="$p$491,453" size="$s$90,90" base_size="$25"/>
-						<Dict id="$7" pos="$p$672,351" size="$s$120,120" base_size="$40.262750000000025"/>
-						<Dict id="$7" pos="$p$672,480" size="$s$120,120" base_size="$40.262750000000025"/>
+						<Dict id="$7" pos="$p$672,351" size="$s$120,120" base_size="$40.262750000000025" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$672,480" size="$s$120,120" base_size="$40.262750000000025" state="_BOOL_yeah"/>
 					</List>
 				</items>
 				<joins>
@@ -51,7 +51,7 @@
 					</List>
 				</joins>
 			</Dict>
-			<Dict name="Пароль плиз" created="$1683554540" modified="$1683856905" states="001110001000011111111111111111101010011">
+			<Dict name="Пароль плиз" created="$1683554540" modified="$1683994839" states="001110001000011111111111111111101010011">
 				<items>
 					<List>
 						<Dict id="$9" pos="$p$466,603" size="$s$127,127" base_size="$30.250000000000057" state="1.1.0.0.1.1"/>
@@ -77,7 +77,7 @@
 						<Dict id="$0" pos="$p$754,617" size="$s$34,34" base_size="$9.638582235738307"/>
 						<Dict id="$0" pos="$p$755,653" size="$s$34,34" base_size="$9.638582235738307"/>
 						<Dict id="$0" pos="$p$754,569" size="$s$34,34" base_size="$9.638582235738307"/>
-						<Dict id="$7" pos="$p$657,171" size="$s$231,233" base_size="$78.46070941802513"/>
+						<Dict id="$7" pos="$p$657,171" size="$s$231,233" base_size="$78.46070941802513" state="_BOOL_yeah"/>
 						<Dict id="$5" pos="$p$178,172" size="$s$51,51" base_size="$17.075336384126782" state="_BOOL_yeah"/>
 						<Dict id="$5" pos="$p$246,170" size="$s$51,51" base_size="$17.075336384126782" state="_BOOL_nop"/>
 						<Dict id="$5" pos="$p$316,170" size="$s$51,51" base_size="$17.075336384126782" state="_BOOL_yeah"/>
@@ -141,7 +141,7 @@
 					</List>
 				</joins>
 			</Dict>
-			<Dict name="Для тестирования #1" created="$1683838621" modified="$1683843309" states="00000100010000000000000">
+			<Dict name="Для тестирования #1" created="$1683838621" modified="$1683994844" states="00000100010000000">
 				<items>
 					<List>
 						<Dict id="$5" pos="$p$149,242" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
@@ -155,12 +155,12 @@
 						<Dict id="$3" pos="$p$355,546" size="$s$90,90" base_size="$25"/>
 						<Dict id="$9" pos="$p$594,460" size="$s$105,105" base_size="$25" state="0.0.1.0.0.0"/>
 						<Dict id="$3" pos="$p$591,182" size="$s$90,90" base_size="$25"/>
-						<Dict id="$7" pos="$p$749,199" size="$s$75,75" base_size="$25"/>
-						<Dict id="$7" pos="$p$750,276" size="$s$75,75" base_size="$25"/>
-						<Dict id="$7" pos="$p$751,354" size="$s$75,75" base_size="$25"/>
-						<Dict id="$7" pos="$p$751,430" size="$s$75,75" base_size="$25"/>
-						<Dict id="$7" pos="$p$752,506" size="$s$75,75" base_size="$25"/>
-						<Dict id="$7" pos="$p$755,584" size="$s$75,75" base_size="$25"/>
+						<Dict id="$7" pos="$p$749,199" size="$s$75,75" base_size="$25" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$750,276" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$751,354" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$751,430" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$752,506" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$755,584" size="$s$75,75" base_size="$25" state="_BOOL_nop"/>
 						<Dict id="$1" pos="$p$592,596" size="$s$90,90" base_size="$25"/>
 					</List>
 				</items>
@@ -193,7 +193,7 @@
 					</List>
 				</joins>
 			</Dict>
-			<Dict name="Для тестирования #2" created="$1683843280" modified="$1683856936" states="010111111110111000001000000000000001111000100001100000000111111111111011000000000010">
+			<Dict name="Для тестирования #2" created="$1683843280" modified="$1683994851" states="010111111110111000001000000000000001111000100001100000000111111111111011000000000010">
 				<items>
 					<List>
 						<Dict id="$3" pos="$p$551,364" size="$s$45,43" base_size="$11.662684505243613"/>
@@ -257,24 +257,24 @@
 						<Dict id="$2" pos="$p$285,441" size="$s$21,20" base_size="$5.984801234229173"/>
 						<Dict id="$2" pos="$p$285,464" size="$s$21,20" base_size="$5.984801234229173"/>
 						<Dict id="$1" pos="$p$737,222" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$782,271" size="$s$45,44" base_size="$12.828952955767829"/>
+						<Dict id="$7" pos="$p$782,271" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
 						<Dict id="$1" pos="$p$656,224" size="$s$45,44" base_size="$12.828952955767829"/>
 						<Dict id="$1" pos="$p$850,384" size="$s$45,44" base_size="$12.828952955767829"/>
 						<Dict id="$1" pos="$p$637,361" size="$s$45,44" base_size="$12.828952955767829"/>
 						<Dict id="$1" pos="$p$744,517" size="$s$45,44" base_size="$12.828952955767829"/>
 						<Dict id="$1" pos="$p$650,520" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$736,271" size="$s$45,44" base_size="$12.828952955767866"/>
-						<Dict id="$7" pos="$p$691,270" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$691,315" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$782,315" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$782,359" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$736,360" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$691,360" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$690,404" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$782,404" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$782,449" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$736,449" size="$s$45,44" base_size="$12.828952955767829"/>
-						<Dict id="$7" pos="$p$690,448" size="$s$45,44" base_size="$12.828952955767829"/>
+						<Dict id="$7" pos="$p$736,271" size="$s$45,44" base_size="$12.828952955767866" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$691,270" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$691,315" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$782,315" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$782,359" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$736,360" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$691,360" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$690,404" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$782,404" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$782,449" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$736,449" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$690,448" size="$s$45,44" base_size="$12.828952955767829" state="_BOOL_yeah"/>
 						<Dict id="$1" pos="$p$638,382" size="$s$45,44" base_size="$12.828952955767829"/>
 						<Dict id="$1" pos="$p$851,406" size="$s$45,44" base_size="$12.828952955767829"/>
 						<Dict id="$0" pos="$p$302,303" size="$s$15,15" base_size="$4.496469747730391"/>
@@ -513,7 +513,7 @@
 					</List>
 				</joins>
 			</Dict>
-			<Dict name="Для тестирования #3" created="$1683851303" modified="$1683856980" states="00000011111000111010">
+			<Dict name="Для тестирования #3" created="$1683851303" modified="$1683994855" states="00000011111000111010">
 				<items>
 					<List>
 						<Dict id="$5" pos="$p$115,269" size="$s$64,62" base_size="$18.782870022539512" state="_BOOL_nop"/>
@@ -535,11 +535,11 @@
 						<Dict id="$10" pos="$p$506,397" size="$s$58,139" base_size="$17.07533638412679"/>
 						<Dict id="$2" pos="$p$664,416" size="$s$58,57" base_size="$17.07533638412679"/>
 						<Dict id="$0" pos="$p$650,356" size="$s$58,57" base_size="$17.07533638412679"/>
-						<Dict id="$7" pos="$p$218,179" size="$s$58,57" base_size="$17.07533638412679"/>
-						<Dict id="$7" pos="$p$297,179" size="$s$58,57" base_size="$17.07533638412679"/>
-						<Dict id="$7" pos="$p$376,181" size="$s$58,57" base_size="$17.07533638412679"/>
-						<Dict id="$7" pos="$p$456,179" size="$s$58,57" base_size="$17.07533638412679"/>
-						<Dict id="$7" pos="$p$534,179" size="$s$58,57" base_size="$17.07533638412679"/>
+						<Dict id="$7" pos="$p$218,179" size="$s$58,57" base_size="$17.07533638412679" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$297,179" size="$s$58,57" base_size="$17.07533638412679" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$376,181" size="$s$58,57" base_size="$17.07533638412679" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$456,179" size="$s$58,57" base_size="$17.07533638412679" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$534,179" size="$s$58,57" base_size="$17.07533638412679" state="_BOOL_nop"/>
 					</List>
 				</items>
 				<joins>
@@ -588,66 +588,66 @@
 					</List>
 				</joins>
 			</Dict>
-			<Dict name="Для тестирования #4" created="$1683857166" modified="$1683858871" states="0000001101001000001000000010000000000000000000111000">
+			<Dict name="Для тестирования #4" created="$1683857166" modified="$1683994865" states="0000001101001000001000000010000000000000000000111000">
 				<items>
 					<List>
-						<Dict id="$5" pos="$p$116,373" size="$s$72,71" base_size="$20.661157024793468" state="_BOOL_nop"/>
-						<Dict id="$5" pos="$p$114,445" size="$s$68,68" base_size="$20.661157024793468" state="_BOOL_nop"/>
-						<Dict id="$5" pos="$p$109,521" size="$s$72,71" base_size="$20.661157024793468" state="_BOOL_nop"/>
-						<Dict id="$5" pos="$p$116,593" size="$s$72,71" base_size="$20.661157024793468" state="_BOOL_nop"/>
-						<Dict id="$5" pos="$p$117,666" size="$s$72,71" base_size="$20.661157024793468" state="_BOOL_nop"/>
-						<Dict id="$2" pos="$p$221,327" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$340,328" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$344,372" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$2" pos="$p$257,382" size="$s$24,24" base_size="$7.241609493417213"/>
-						<Dict id="$0" pos="$p$339,411" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$336,453" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$508,330" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$508,369" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$509,410" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$509,452" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$507,493" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$507,536" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$683,324" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$682,363" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$680,401" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$681,441" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$680,481" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$679,523" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$677,564" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$677,604" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$867,323" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$869,364" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$870,404" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$868,444" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$867,484" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$870,522" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$870,562" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$869,603" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$868,643" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$0" pos="$p$868,684" size="$s$40,40" base_size="$11.662684505243355"/>
-						<Dict id="$1" pos="$p$387,390" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$556,389" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$563,473" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$732,381" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$734,461" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$733,544" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$927,381" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$930,463" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$932,543" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$1" pos="$p$932,621" size="$s$30,30" base_size="$8.762347487034841"/>
-						<Dict id="$2" pos="$p$414,488" size="$s$25,24" base_size="$7.241609493417213"/>
-						<Dict id="$2" pos="$p$571,576" size="$s$25,24" base_size="$7.241609493417213"/>
-						<Dict id="$2" pos="$p$771,654" size="$s$24,24" base_size="$7.241609493417213"/>
-						<Dict id="$1" pos="$p$415,513" size="$s$25,24" base_size="$7.241609493417213"/>
-						<Dict id="$1" pos="$p$571,603" size="$s$25,24" base_size="$7.241609493417213"/>
-						<Dict id="$1" pos="$p$772,681" size="$s$25,24" base_size="$7.241609493417203"/>
-						<Dict id="$7" pos="$p$1028,302" size="$s$72,71" base_size="$20.661157024793386"/>
-						<Dict id="$7" pos="$p$1028,374" size="$s$72,71" base_size="$20.661157024793386"/>
-						<Dict id="$7" pos="$p$1027,445" size="$s$72,71" base_size="$20.661157024793386"/>
-						<Dict id="$7" pos="$p$1027,517" size="$s$72,71" base_size="$20.661157024793386"/>
-						<Dict id="$7" pos="$p$1032,588" size="$s$72,71" base_size="$20.661157024793386"/>
-						<Dict id="$7" pos="$p$1037,660" size="$s$72,71" base_size="$20.661157024793386"/>
+						<Dict id="$5" pos="$p$81,313" size="$s$54,53" base_size="$15.523033076478937" state="_BOOL_nop"/>
+						<Dict id="$5" pos="$p$79,367" size="$s$51,51" base_size="$15.523033076478937" state="_BOOL_nop"/>
+						<Dict id="$5" pos="$p$75,424" size="$s$54,53" base_size="$15.523033076478937" state="_BOOL_nop"/>
+						<Dict id="$5" pos="$p$81,478" size="$s$54,53" base_size="$15.523033076478937" state="_BOOL_nop"/>
+						<Dict id="$5" pos="$p$82,533" size="$s$54,53" base_size="$15.523033076478937" state="_BOOL_nop"/>
+						<Dict id="$2" pos="$p$160,279" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$249,279" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$252,312" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$2" pos="$p$187,320" size="$s$18,18" base_size="$5.440728394753729"/>
+						<Dict id="$0" pos="$p$248,342" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$246,373" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$375,281" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$375,310" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$376,341" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$376,373" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$375,403" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$375,436" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$507,276" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$506,306" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$504,334" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$505,364" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$504,394" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$504,426" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$502,457" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$502,487" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$645,276" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$646,306" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$647,336" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$646,367" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$645,397" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$647,425" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$647,455" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$646,486" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$646,516" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$0" pos="$p$646,547" size="$s$30,30" base_size="$8.762347487034825"/>
+						<Dict id="$1" pos="$p$284,326" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$411,325" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$417,388" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$544,319" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$545,379" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$544,442" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$690,319" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$692,381" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$694,441" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$1" pos="$p$694,500" size="$s$22,22" base_size="$6.58328135765202"/>
+						<Dict id="$2" pos="$p$305,400" size="$s$18,18" base_size="$5.440728394753729"/>
+						<Dict id="$2" pos="$p$423,466" size="$s$18,18" base_size="$5.440728394753729"/>
+						<Dict id="$2" pos="$p$573,524" size="$s$18,18" base_size="$5.440728394753729"/>
+						<Dict id="$1" pos="$p$305,418" size="$s$18,18" base_size="$5.440728394753729"/>
+						<Dict id="$1" pos="$p$423,486" size="$s$18,18" base_size="$5.440728394753729"/>
+						<Dict id="$1" pos="$p$574,545" size="$s$18,18" base_size="$5.440728394753721"/>
+						<Dict id="$7" pos="$p$766,260" size="$s$54,53" base_size="$15.523033076478878" state="_BOOL_yeah"/>
+						<Dict id="$7" pos="$p$766,314" size="$s$54,53" base_size="$15.523033076478878" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$765,367" size="$s$54,53" base_size="$15.523033076478878" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$765,421" size="$s$54,53" base_size="$15.523033076478878" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$769,475" size="$s$54,53" base_size="$15.523033076478878" state="_BOOL_nop"/>
+						<Dict id="$7" pos="$p$773,529" size="$s$54,53" base_size="$15.523033076478878" state="_BOOL_nop"/>
 					</List>
 				</items>
 				<joins>
