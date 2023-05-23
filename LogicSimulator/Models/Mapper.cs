@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using DynamicData;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-using Avalonia.LogicalTree;
 using System.Linq;
 using Avalonia.Input;
 
@@ -239,28 +238,9 @@ namespace LogicSimulator.Models {
             Move(item, pos);
         }
 
-        public void FixItem(ref Control res, Point pos, IEnumerable<ILogical> items) {
-            foreach (var logic in items) {
-                // if (item.IsPointerOver) { } Гениальная вещь! ;'-} Хотя не, всё равно блокируется после Press и до Release, чего я впринципе хочу избежать ;'-}
-                var item = (Control) logic;
-                var tb = item.TransformedBounds;
-                // if (tb != null && new Rect(tb.Value.Clip.TopLeft, new Size()).Sum(item.Bounds).Contains(pos) && (string?) item.Tag != "Join") res = item; // Гениально! ;'-} НАКОНЕЦ-ТО ЗАРАБОТАЛО! (Так было в 8 лабе)
-                if (tb != null && tb.Value.Bounds.TransformToAABB(tb.Value.Transform).Contains(pos) && (string?) item.Tag != "Join") res = item; // Гениально! Апгрейд прошёл успешно :D
-                FixItem(ref res, pos, item.GetLogicalChildren());
-            }
-        }
-        public void Move(Control item, Point pos, bool use_fix = true) {
+        public int GetMode() => mode;
+        public void Move(Control item, Point pos) {
             // Log.Write("PointerMoved: " + item.GetType().Name + " pos: " + pos);
-
-            if (use_fix && (mode == 5 || mode == 6 || mode == 7 || mode == 8)) {
-                var tb = canv.TransformedBounds;
-                if (tb != null) {
-                    item = new Canvas() { Tag = "Scene" };
-                    var bounds = tb.Value.Bounds.TransformToAABB(tb.Value.Transform);
-                    FixItem(ref item, pos + bounds.TopLeft, canv.Children);
-                    // Log.Write("tag: " + item.Tag);
-                }
-            }
 
             string[] mods = new[] { "In", "Out", "IO" };
             var tag = (string?) item.Tag;
@@ -330,8 +310,8 @@ namespace LogicSimulator.Models {
         public bool tapped = false; // Обрабатывается после Release
         public Point tap_pos; // Обрабатывается после Release
 
-        public int Release(Control item, Point pos, bool use_fix = true) {
-            Move(item, pos, use_fix);
+        public int Release(Control item, Point pos) {
+            Move(item, pos);
             // Log.Write("PointerReleased: " + item.GetType().Name + " pos: " + pos);
 
             switch (mode) {

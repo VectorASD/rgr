@@ -3,10 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using Avalonia.LogicalTree;
 using Avalonia.Media;
+using DynamicData;
 using LogicSimulator.Models;
 using LogicSimulator.ViewModels;
 using LogicSimulator.Views.Shapes;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LogicSimulator.Views {
@@ -86,6 +89,30 @@ namespace LogicSimulator.Views {
             return null;
         }
 
+        private void FixItem(ref Control? res, Point pos, IEnumerable<ILogical> items) {
+            foreach (var logic in items) {
+                // if (item.IsPointerOver) { } Гениальная вещь! ;'-} Хотя не, всё равно блокируется после Press и до Release, чего я впринципе хочу избежать ;'-}
+                var item = (Control) logic;
+                var tb = item.TransformedBounds;
+                // if (tb != null && new Rect(tb.Value.Clip.TopLeft, new Size()).Sum(item.Bounds).Contains(pos) && (string?) item.Tag != "Join") res = item; // Гениально! ;'-} НАКОНЕЦ-ТО ЗАРАБОТАЛО! (Так было в 8 лабе)
+                if (tb != null && tb.Value.Bounds.TransformToAABB(tb.Value.Transform).Contains(pos) && (string?) item.Tag != "Join") res = item; // Гениально! Апгрейд прошёл успешно :D
+                FixItem(ref res, pos, item.GetLogicalChildren());
+            }
+        }
+        private Control FixItem(Control old, Canvas canv, Point pos) {
+            int mode = ViewModelBase.map.GetMode();
+            Control? item = null;
+            if (mode != 5 && mode != 6 && mode != 7 && mode != 8) return old;
+
+            var tb = canv.TransformedBounds;
+            if (tb != null) {
+                var bounds = tb.Value.Bounds.TransformToAABB(tb.Value.Transform);
+                FixItem(ref item, pos + bounds.TopLeft, canv.Children);
+                // Log.Write("tag: " + item.Tag);
+            }
+            return item ?? new Canvas() { Tag = "Scene" };
+        }
+
         public void AddWindow() {
             var canv = this.Find<Canvas>("Canvas");
             var map = ViewModelBase.map;
@@ -103,18 +130,22 @@ namespace LogicSimulator.Views {
                 if (e.Source != null && e.Source is Control @control) map.Press(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerMoved += (object? sender, PointerEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) map.Move(@control, e.GetCurrentPoint(canv).Position);
+                if (e.Source != null && e.Source is Control @control) {
+                    var pos = e.GetCurrentPoint(canv).Position;
+                    map.Move(FixItem(@control, canv, pos), pos);
+                }
             };
             panel.PointerReleased += (object? sender, PointerReleasedEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) {
-                    int mode = map.Release(@control, e.GetCurrentPoint(canv).Position);
+                    var pos = e.GetCurrentPoint(canv).Position;
+                    int mode = map.Release(FixItem(@control, canv, pos), pos);
+
                     bool tap = map.tapped;
                     if (tap && mode == 1) {
-                        var pos = map.tap_pos;
                         if (canv == null) return; // Такого не бывает
 
                         var newy = map.GenSelectedItem();
-                        newy.Move(pos);
+                        newy.Move(map.tap_pos);
                         map.AddItem(newy);
                     }
                 }

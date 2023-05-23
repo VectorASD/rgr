@@ -67,7 +67,7 @@ namespace UITestsLogicSimulator
         private void Move(Control a, Control b) {
             map.Move(a, new());
             map.Press(a, new());
-            /*int mode = */ map.Release(b, new(100, 100), false); // В себе уже имеет map.Move(target, pos2)
+            /*int mode = */ map.Release(b, new(100, 100)); // В себе уже имеет map.Move(target, pos2)
             // Log("Moved: " + map.tapped + " | " + mode);
         }
         private string Export() {
