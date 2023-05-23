@@ -1,6 +1,9 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using Avalonia.Media;
 using LogicSimulator.Models;
 using LogicSimulator.ViewModels;
 using LogicSimulator.Views.Shapes;
@@ -13,6 +16,9 @@ namespace LogicSimulator.Views {
         public MainWindow() {
             Mapper.CreateItemF = CreateItem;
             Mapper.item_types = Enumerable.Range(0, 12).Select(CreateItem).ToArray();
+            var map = ViewModelBase.map;
+            map.Marker_SetState = Marker_SetState;
+            map.Marker2_SetState = Marker2_SetState;
 
             mwvm = new MainWindowViewModel();
             DataContext = mwvm;
@@ -22,6 +28,28 @@ namespace LogicSimulator.Views {
         }
 
 
+
+        /*
+         * Маркеры
+         */
+
+        readonly Line marker = new() { Tag = "Marker", ZIndex = 2, IsVisible = false, Stroke = Brushes.YellowGreen, StrokeThickness = 3 };
+        readonly Rectangle marker2 = new() { Tag = "Marker", Classes = new("anim"), ZIndex = 2, IsVisible = false, Stroke = Brushes.MediumAquamarine, StrokeThickness = 3 };
+        void Marker_SetState(bool? vis, Point? start, Point? end) {
+            if (vis != null) marker.IsVisible = (bool) vis;
+            if (start != null) marker.StartPoint = (Point) start;
+            if (end != null) marker.EndPoint = (Point) end;
+        }
+        void Marker2_SetState(bool? vis, Thickness? margin, double? w, double? h) {
+            if (vis != null) marker2.IsVisible = (bool) vis;
+            if (margin != null) marker2.Margin = (Thickness) margin;
+            if (w != null) marker2.Width = (double) w;
+            if (h != null) marker2.Height = (double) h;
+        }
+
+        /*
+         * Фабрикатор IGate
+         */
 
         public static IGate CreateItem(int n) {
             return n switch {
@@ -40,6 +68,10 @@ namespace LogicSimulator.Views {
                 _ => new AND_2(),
             };
         }
+
+        /*
+         * Привязка управления холстом к обработчикам в картографе
+         */
 
         private static UserControl? GetUC(Control item) {
             while (item.Parent != null) {
@@ -61,8 +93,8 @@ namespace LogicSimulator.Views {
             map.canv = canv;
             if (canv == null) return; // Такого не бывает
 
-            canv.Children.Add(map.Marker);
-            canv.Children.Add(map.Marker2);
+            canv.Children.Add(marker);
+            canv.Children.Add(marker2);
 
             var panel = (Panel?) canv.Parent;
             if (panel == null) return; // Такого не бывает
@@ -96,6 +128,10 @@ namespace LogicSimulator.Views {
 
             mwvm.CommUsed += FuncComm;
         }
+
+        /*
+         * Обработка переименовывателя схем и проектов
+         */
 
         Grid? cur_grid;
         TextBlock? old_b_child;
@@ -143,6 +179,10 @@ namespace LogicSimulator.Views {
                 cur_grid = null; old_b_child = null;
             };
         }
+
+        /*
+         * Остальное
+         */
 
         public void Update() {
             Log.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    Текущий проект:\n" + ViewModelBase.CurrentProj);
