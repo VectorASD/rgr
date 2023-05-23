@@ -8,7 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace LogicSimulator.Views.Shapes {
+namespace LogicSimulator.Views.Shapes
+{
     public partial class Switch: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 5;
 

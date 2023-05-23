@@ -12,7 +12,8 @@ using System.Linq;
 using Button = LogicSimulator.Views.Shapes.Button;
 using Avalonia.Input;
 
-namespace LogicSimulator.Models {
+namespace LogicSimulator.Models
+{
     public class Mapper {
         readonly Line marker = new() { Tag = "Marker", ZIndex = 2, IsVisible = false, Stroke = Brushes.YellowGreen, StrokeThickness = 3 };
         readonly Rectangle marker2 = new() { Tag = "Marker", Classes = new("anim"), ZIndex = 2, IsVisible = false, Stroke = Brushes.MediumAquamarine, StrokeThickness = 3 };

@@ -1,10 +1,12 @@
 using Avalonia.Controls;
+using LogicSimulator.Models;
 using LogicSimulator.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace LogicSimulator.Views.Shapes {
+namespace LogicSimulator.Views.Shapes
+{
     public partial class FlipFlop: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 9;
 

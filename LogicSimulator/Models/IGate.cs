@@ -1,11 +1,12 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
-using LogicSimulator.Models;
 using System.Collections.Generic;
 
-namespace LogicSimulator.Views.Shapes {
-    public interface IGate {
+namespace LogicSimulator.Models
+{
+    public interface IGate
+    {
         public int CountIns { get; }
         public int CountOuts { get; }
         public UserControl GetSelf();

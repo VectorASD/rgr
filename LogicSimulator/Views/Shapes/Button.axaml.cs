@@ -5,7 +5,8 @@ using Avalonia.Media;
 using LogicSimulator.Models;
 using System.ComponentModel;
 
-namespace LogicSimulator.Views.Shapes {
+namespace LogicSimulator.Views.Shapes
+{
     public partial class Button: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 6;
 

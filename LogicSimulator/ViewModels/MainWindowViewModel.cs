@@ -3,14 +3,14 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Input;
 using LogicSimulator.Models;
 using LogicSimulator.Views;
-using LogicSimulator.Views.Shapes;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reactive;
 
-namespace LogicSimulator.ViewModels {
+namespace LogicSimulator.ViewModels
+{
     public class Log {
         static readonly List<string> logs = new();
         static readonly string path = "../../../Log.txt";

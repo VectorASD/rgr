@@ -8,7 +8,8 @@ using LogicSimulator.Views.Shapes;
 using System.Text;
 using Button = Avalonia.Controls.Button;
 
-namespace UITestsLogicSimulator {
+namespace UITestsLogicSimulator
+{
     public class AllTestsInOnePlace {
         private readonly LauncherWindow launcherWindow = AvaloniaApp.GetMainWindow();
         private readonly MainWindow mainWindow = LauncherWindowViewModel.GetMW;
