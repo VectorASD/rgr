@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia;
-using LogicSimulator.ViewModels;
 using System;
 using System.Collections.Generic;
 using DynamicData;
@@ -66,25 +65,18 @@ namespace LogicSimulator.Models {
          */
 
         readonly List<IGate> items = new();
-        // readonly MatrixTransform general_transform = new() { Matrix = new(1.0, 0.0, 0.0, 1.0, 0, 0) };
-        // Canvas? itemer;
+
+        public delegate void AddHandler(IGate gate);
+        public event AddHandler? AddItemToCanvas;
+
         private void AddToMap(IControl item) {
-            /*if (itemer == null) { Снова мимо :///
-                itemer = new Canvas();
-                var layout = new LayoutTransformControl() {
-                    LayoutTransform = general_transform,
-                    Child = itemer,
-                };
-                canv.Children.Add(layout);
-            }
-            itemer.Children.Add(item);*/
             canv.Children.Add(item);
         }
 
         public void AddItem(IGate item) {
             items.Add(item);
             sim.AddItem(item);
-            AddToMap(item.GetSelf());
+            AddItemToCanvas?.Invoke(item);
         }
         public void RemoveItem(IGate item) {
             if (marked_item != null) {

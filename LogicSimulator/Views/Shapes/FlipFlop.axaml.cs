@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using LogicSimulator.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +7,6 @@ namespace LogicSimulator.Views.Shapes {
     public partial class FlipFlop: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 9;
 
-        public override UserControl GetSelf() => this;
         protected override IGate GetSelfI => this;
         protected override int[][] Sides => new int[][] {
             System.Array.Empty<int>(),

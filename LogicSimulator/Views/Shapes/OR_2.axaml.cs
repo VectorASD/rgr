@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using LogicSimulator.Models;
 using System.ComponentModel;
 
@@ -7,7 +6,6 @@ namespace LogicSimulator.Views.Shapes
     public partial class OR_2: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 1;
 
-        public override UserControl GetSelf() => this;
         protected override IGate GetSelfI => this;
         protected override int[][] Sides => new int[][] {
             System.Array.Empty<int>(),

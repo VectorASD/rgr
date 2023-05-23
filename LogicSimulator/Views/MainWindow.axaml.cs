@@ -157,6 +157,10 @@ namespace LogicSimulator.Views {
             };
 
             mwvm.CommUsed += FuncComm;
+
+            map.AddItemToCanvas += (IGate gate) => {
+                if (gate is UserControl @UC) canv.Children.Add(@UC);
+            };
         }
 
         /*

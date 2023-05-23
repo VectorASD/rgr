@@ -13,7 +13,6 @@ namespace LogicSimulator.Views.Shapes {
     public abstract class GateBase: UserControl {
         public int CountIns { get; private set; }
         public int CountOuts { get; private set; }
-        public abstract UserControl GetSelf();
         protected abstract IGate GetSelfI { get; }
         protected abstract void Init();
         protected abstract int[][] Sides { get; }
@@ -26,7 +25,7 @@ namespace LogicSimulator.Views.Shapes {
         protected bool use_left;
         protected bool use_right;
         protected bool use_bottom;
-        private int[][] pin_data;
+        private readonly int[][] pin_data;
 
         public GateBase() {
             var sides = Sides;
@@ -57,7 +56,7 @@ namespace LogicSimulator.Views.Shapes {
             if (height < width) height = width;
             // AvaloniaXamlLoader.Load(GetSelf()); // InitializeComponent(); Не вышло :///
             // А так от Init бы полностью отказался бы ;'-} Принцип Подскановки Лископ бы просто пылал от этого, хоть абстрактному классу и положено зависеть от потомка ;'-}
-            DataContext = GetSelf();
+            DataContext = this;
             Init(); // :///
 
             var canv = (Canvas) LogicalChildren[0];

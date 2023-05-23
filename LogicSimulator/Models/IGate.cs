@@ -1,5 +1,4 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using System.Collections.Generic;
 
@@ -9,7 +8,6 @@ namespace LogicSimulator.Models
     {
         public int CountIns { get; }
         public int CountOuts { get; }
-        public UserControl GetSelf();
 
         public Point GetPos();
         public Size GetSize();
