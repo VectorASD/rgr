@@ -30,7 +30,7 @@ namespace LogicSimulator {
         }
 
         /*
-         * Для тестирования
+         * Р”Р»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
          */
 
         public static bool lock_inc_build = false;
