@@ -44,7 +44,20 @@ namespace LogicSimulator.Views {
         }
         void Marker2_SetState(bool? vis, Thickness? margin, double? w, double? h) {
             if (vis != null) marker2.IsVisible = (bool) vis;
-            if (margin != null) marker2.Margin = (Thickness) margin;
+            if (margin != null) {
+                var mar = (Thickness) margin;
+                double x = mar.Left, y = mar.Top;
+                if (x < 0) {
+                    if (w != null) w = ((double) w) + x;
+                    x = 0;
+                }
+                if (y < 0) {
+                    if (h != null) h = ((double) h) + y;
+                    y = 0;
+                }
+                marker2.Margin = new(x, y, 0, 0);
+                if (w != null && h != null) marker2.IsVisible = (double) w > 0 && (double) h > 0;
+            }
             if (w != null) marker2.Width = (double) w;
             if (h != null) marker2.Height = (double) h;
         }
