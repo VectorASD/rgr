@@ -4,14 +4,12 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Threading;
 using LogicSimulator.Models;
-using LogicSimulator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace LogicSimulator.Views.Shapes
-{
+namespace LogicSimulator.Views.Shapes {
     public abstract class GateBase: UserControl {
         public int CountIns { get; private set; }
         public int CountOuts { get; private set; }

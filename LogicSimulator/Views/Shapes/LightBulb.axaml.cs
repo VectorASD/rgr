@@ -2,13 +2,11 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
 using LogicSimulator.Models;
-using LogicSimulator.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace LogicSimulator.Views.Shapes
-{
+namespace LogicSimulator.Views.Shapes {
     public partial class LightBulb: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 7;
 

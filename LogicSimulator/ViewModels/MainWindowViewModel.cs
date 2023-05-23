@@ -2,41 +2,24 @@
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Reactive;
 
-namespace LogicSimulator.ViewModels
-{
-    public class Log {
-        static readonly List<string> logs = new();
-        static readonly string path = "../../../Log.txt";
-        static bool first = true;
-
-        static readonly bool use_file = false;
-
-        public static MainWindowViewModel? Mwvm { private get; set; }
-        public static void Write(string message, bool without_update = false) {
-            if (!without_update) {
-                foreach (var mess in message.Split('\n')) logs.Add(mess);
-                while (logs.Count > 45) logs.RemoveAt(0);
-
-                if (Mwvm != null) Mwvm.Logg = string.Join('\n', logs);
-            }
-
-            if (use_file) {
-                if (first) File.WriteAllText(path, message + "\n");
-                else File.AppendAllText(path, message + "\n");
-                first = false;
-            }
-        }
-    }
-
+namespace LogicSimulator.ViewModels {
     public class MainWindowViewModel: ViewModelBase {
         private string log = "";
         public string Logg { get => log; set => this.RaiseAndSetIfChanged(ref log, value); }
 
+        static readonly List<string> logs = new();
+        private void LogHandler(string message) {
+            foreach (var mess in message.Split('\n')) logs.Add(mess);
+            while (logs.Count > 45) logs.RemoveAt(0);
+            Logg = string.Join('\n', logs);
+        }
+
+
+
         public MainWindowViewModel() { // Если я буду Window mw передавать через этот конструктор, то предварительный просмотр снова порвёт смачно XD
-            Log.Mwvm = this;
+            Log.NewLine += LogHandler;
             Comm = ReactiveCommand.Create<string, Unit>(n => { FuncComm(n); return new Unit(); });
             NewItem = ReactiveCommand.Create<Unit, Unit>(_ => { FuncNewItem(); return new Unit(); });
         }

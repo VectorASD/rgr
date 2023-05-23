@@ -53,7 +53,7 @@ namespace LogicSimulator.Models {
 
         public static Func<int, IGate>? CreateItemF;
         private static IGate CreateItem(int n) {
-            if (CreateItemF == null) throw new Exception("Не определена фабрика IGate извне картографа");
+            if (CreateItemF == null) throw new Exception("Не определён фабрикатор IGate извне картографа");
             return CreateItemF(n);
         }
 
