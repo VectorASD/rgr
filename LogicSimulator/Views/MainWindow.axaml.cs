@@ -3,16 +3,55 @@ using Avalonia.Controls.Presenters;
 using Avalonia.Input;
 using LogicSimulator.Models;
 using LogicSimulator.ViewModels;
+using LogicSimulator.Views.Shapes;
+using System.Linq;
 
 namespace LogicSimulator.Views {
     public partial class MainWindow: Window {
         readonly MainWindowViewModel mwvm;
 
         public MainWindow() {
-            InitializeComponent();
+            Mapper.CreateItemF = CreateItem;
+            Mapper.item_types = Enumerable.Range(0, 12).Select(CreateItem).ToArray();
+
             mwvm = new MainWindowViewModel();
             DataContext = mwvm;
+
+            InitializeComponent();
             AddWindow();
+        }
+
+
+
+        public static IGate CreateItem(int n) {
+            return n switch {
+                0 => new AND_2(),
+                1 => new OR_2(),
+                2 => new NOT(),
+                3 => new XOR_2(),
+                4 => new PSum(),
+                5 => new Switch(),
+                6 => new Shapes.Button(),
+                7 => new LightBulb(),
+                8 => new NAND_2(),
+                9 => new FlipFlop(),
+                10 => new OR_8(),
+                11 => new AND_8(),
+                _ => new AND_2(),
+            };
+        }
+
+        private static UserControl? GetUC(Control item) {
+            while (item.Parent != null) {
+                if (item is UserControl @UC) return @UC;
+                item = (Control) item.Parent;
+            }
+            return null;
+        }
+        private static IGate? GetGate(Control item) {
+            var UC = GetUC(item);
+            if (UC is IGate @gate) return @gate;
+            return null;
         }
 
         public void AddWindow() {
@@ -49,10 +88,10 @@ namespace LogicSimulator.Views {
                 }
             };
             panel.PointerWheelChanged += (object? sender, PointerWheelEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) map.WheelMove(@control, e.Delta.Y, e.GetCurrentPoint(canv).Position);
+                if (e.Source != null && e.Source is Control @control) map.WheelMove(GetGate(@control), (string?) @control.Tag, e.Delta.Y, e.GetCurrentPoint(canv).Position);
             };
             KeyDown += (object? sender, KeyEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) map.KeyPressed(@control, e.Key);
+                if (e.Source != null && e.Source is Control @control) map.KeyPressed(e.Key);
             };
 
             mwvm.CommUsed += FuncComm;

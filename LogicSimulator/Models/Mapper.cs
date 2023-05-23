@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia;
 using LogicSimulator.ViewModels;
-using LogicSimulator.Views.Shapes;
 using System;
 using System.Collections.Generic;
 using DynamicData;
@@ -9,7 +8,6 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.LogicalTree;
 using System.Linq;
-using Button = LogicSimulator.Views.Shapes.Button;
 using Avalonia.Input;
 
 namespace LogicSimulator.Models
@@ -60,25 +58,13 @@ namespace LogicSimulator.Models
         private int selected_item = 0;
         public int SelectedItem { get => selected_item; set => selected_item = value; }
 
+        public static Func<int, IGate>? CreateItemF;
         private static IGate CreateItem(int n) {
-            return n switch {
-                0 => new AND_2(),
-                1 => new OR_2(),
-                2 => new NOT(),
-                3 => new XOR_2(),
-                4 => new PSum(),
-                5 => new Switch(),
-                6 => new Button(),
-                7 => new LightBulb(),
-                8 => new NAND_2(),
-                9 => new FlipFlop(),
-                10 => new OR_8(),
-                11 => new AND_8(),
-                _ => new AND_2(),
-            };
+            if (CreateItemF == null) throw new Exception("Не определена фабрика IGate извне картографа");
+            return CreateItemF(n);
         }
 
-        public IGate[] item_types = Enumerable.Range(0, 12).Select(CreateItem).ToArray();
+        public static IGate[] item_types = Array.Empty<IGate>();
 
         public IGate GenSelectedItem() => CreateItem(selected_item);
 
@@ -424,9 +410,9 @@ namespace LogicSimulator.Models
             }
         }
 
-        public void WheelMove(Control item, double move, Point pos) {
+        public void WheelMove(IGate? item, string? tag, double move, Point pos) {
             // Log.Write("WheelMoved: " + item.GetType().Name + " delta: " + (move > 0 ? 1 : -1));
-            int mode = CalcMode((string?) item.Tag);
+            int mode = CalcMode(tag);
             double scale = move > 0 ? 1.1 : 1 / 1.1;
             double inv_scale = 1 / scale;
 
@@ -444,15 +430,14 @@ namespace LogicSimulator.Models
                 UpdateMarker();
                 break;
             case 2:
-                var gate2 = GetGate(item);
-                if (gate2 == null) return;
-                gate2.ChangeScale(inv_scale);
+                if (item == null) return;
+                item.ChangeScale(inv_scale);
                 UpdateMarker();
                 break;
             }
         }
 
-        public void KeyPressed(Control _, Key key) {
+        public void KeyPressed(Key key) {
             // Log.Write("KeyPressed: " + item.GetType().Name + " key: " + key);
             switch (key) {
             case Key.Up:

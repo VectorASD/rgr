@@ -108,7 +108,7 @@ namespace UITestsLogicSimulator
 
 
 
-        private string ComplexSolution(bool lol = false) {
+        private string ComplexSolution() {
             var sim = map.sim;
             sim.ComparativeTestMode = true;
 

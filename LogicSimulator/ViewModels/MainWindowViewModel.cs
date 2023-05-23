@@ -41,7 +41,7 @@ namespace LogicSimulator.ViewModels
             NewItem = ReactiveCommand.Create<Unit, Unit>(_ => { FuncNewItem(); return new Unit(); });
         }
 
-        public static IGate[] ItemTypes { get => map.item_types; }
+        public static IGate[] ItemTypes { get => Mapper.item_types; }
         public static int SelectedItem { get => map.SelectedItem; set => map.SelectedItem = value; }
 
         /*
