@@ -12,7 +12,7 @@ namespace UITestsLogicSimulator
 {
     public class AllTestsInOnePlace {
         private readonly LauncherWindow launcherWindow = AvaloniaApp.GetMainWindow();
-        private readonly MainWindow mainWindow = LauncherWindowViewModel.GetMW;
+        private readonly MainWindow mainWindow = LauncherWindow.GetMW;
         private readonly Mapper map = ViewModelBase.map;
 
         private readonly Canvas canv;
