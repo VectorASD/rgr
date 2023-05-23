@@ -1,24 +1,17 @@
 ﻿using Avalonia.Controls;
 using Avalonia;
-using LogicSimulator.ViewModels;
-using LogicSimulator.Views.Shapes;
 using System;
 using System.Collections.Generic;
 using DynamicData;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-using Avalonia.LogicalTree;
 using System.Linq;
-using Button = LogicSimulator.Views.Shapes.Button;
 using Avalonia.Input;
 
 namespace LogicSimulator.Models {
     public class Mapper {
-        readonly Line marker = new() { Tag = "Marker", ZIndex = 2, IsVisible = false, Stroke = Brushes.YellowGreen, StrokeThickness = 3 };
-        readonly Rectangle marker2 = new() { Tag = "Marker", Classes = new("anim"), ZIndex = 2, IsVisible = false, Stroke = Brushes.MediumAquamarine, StrokeThickness = 3 };
-        
-        public Line Marker { get => marker; }
-        public Rectangle Marker2 { get => marker2; }
+        public Action<bool?, Point?, Point?>? Marker_SetState; // IsVisible | StartPoint | EndPoint
+        public Action<bool?, Thickness?, double?, double?>? Marker2_SetState; // IsVisible | Margin | Width | Height 
 
         public readonly Simulator sim = new(); // забавно, но без public рефлексия вообще не видит этот параметр, от чего ER-diagram_exTRACTOR теряет одну стрелочку зависимости...
 
@@ -32,13 +25,12 @@ namespace LogicSimulator.Models {
         private JoinedItems? marked_line;
 
         private void UpdateMarker() {
-            marker2.IsVisible = marked_item != null || marked_line != null;
+            bool visible = marked_item != null || marked_line != null;
+            Marker2_SetState?.Invoke(visible, null, null, null);
 
             if (marked_item != null) {
                 var bound = marked_item.GetBounds();
-                marker2.Margin = new(bound.X, bound.Y);
-                marker2.Width = bound.Width;
-                marker2.Height = bound.Height;
+                Marker2_SetState?.Invoke(null, new(bound.X, bound.Y), bound.Width, bound.Height);
                 marked_line = null;
             }
 
@@ -46,9 +38,8 @@ namespace LogicSimulator.Models {
                 var line = marked_line.line;
                 var A = line.StartPoint;
                 var B = line.EndPoint;
-                marker2.Margin = new(Math.Min(A.X, B.X), Math.Min(A.Y, B.Y));
-                marker2.Width = Math.Abs(A.X - B.X);
-                marker2.Height = Math.Abs(A.Y - B.Y);
+                var pos = new Thickness(Math.Min(A.X, B.X), Math.Min(A.Y, B.Y));
+                Marker2_SetState?.Invoke(null, pos, Math.Abs(A.X - B.X), Math.Abs(A.Y - B.Y));
             }
         }
 
@@ -59,25 +50,13 @@ namespace LogicSimulator.Models {
         private int selected_item = 0;
         public int SelectedItem { get => selected_item; set => selected_item = value; }
 
+        public static Func<int, IGate>? CreateItemF;
         private static IGate CreateItem(int n) {
-            return n switch {
-                0 => new AND_2(),
-                1 => new OR_2(),
-                2 => new NOT(),
-                3 => new XOR_2(),
-                4 => new PSum(),
-                5 => new Switch(),
-                6 => new Button(),
-                7 => new LightBulb(),
-                8 => new NAND_2(),
-                9 => new FlipFlop(),
-                10 => new OR_8(),
-                11 => new AND_8(),
-                _ => new AND_2(),
-            };
+            if (CreateItemF == null) throw new Exception("Не определён фабрикатор IGate извне картографа");
+            return CreateItemF(n);
         }
 
-        public IGate[] item_types = Enumerable.Range(0, 12).Select(CreateItem).ToArray();
+        public static IGate[] item_types = Array.Empty<IGate>();
 
         public IGate GenSelectedItem() => CreateItem(selected_item);
 
@@ -86,25 +65,18 @@ namespace LogicSimulator.Models {
          */
 
         readonly List<IGate> items = new();
-        // readonly MatrixTransform general_transform = new() { Matrix = new(1.0, 0.0, 0.0, 1.0, 0, 0) };
-        // Canvas? itemer;
+
+        public delegate void AddHandler(IGate gate);
+        public event AddHandler? AddItemToCanvas;
+
         private void AddToMap(IControl item) {
-            /*if (itemer == null) { Снова мимо :///
-                itemer = new Canvas();
-                var layout = new LayoutTransformControl() {
-                    LayoutTransform = general_transform,
-                    Child = itemer,
-                };
-                canv.Children.Add(layout);
-            }
-            itemer.Children.Add(item);*/
             canv.Children.Add(item);
         }
 
         public void AddItem(IGate item) {
             items.Add(item);
             sim.AddItem(item);
-            AddToMap(item.GetSelf());
+            AddItemToCanvas?.Invoke(item);
         }
         public void RemoveItem(IGate item) {
             if (marked_item != null) {
@@ -228,8 +200,7 @@ namespace LogicSimulator.Models {
                 start_dist = gate.GetPin(marker_circle);
 
                 var circle_pos = start_dist.GetPos();
-                marker.StartPoint = marker.EndPoint = circle_pos;
-                marker.IsVisible = true;
+                Marker_SetState?.Invoke(true, circle_pos, circle_pos);
                 marker_mode = mode;
                 break;
             case 8:
@@ -247,11 +218,11 @@ namespace LogicSimulator.Models {
                 join_start = dist_a > dist_b;
                 old_join = @join;
 
-                marker.StartPoint = join_start ? @join.StartPoint : pos;
-                marker.EndPoint = join_start ? pos : @join.EndPoint;
+                Marker_SetState?.Invoke(true,
+                    join_start ? @join.StartPoint : pos,
+                    join_start ? pos : @join.EndPoint);
                 marker_mode = CalcMode(join_start ? @join2.A.tag : @join2.B.tag);
 
-                marker.IsVisible = true;
                 @join.IsVisible = false;
                 break;
             }
@@ -259,28 +230,9 @@ namespace LogicSimulator.Models {
             Move(item, pos);
         }
 
-        public void FixItem(ref Control res, Point pos, IEnumerable<ILogical> items) {
-            foreach (var logic in items) {
-                // if (item.IsPointerOver) { } Гениальная вещь! ;'-} Хотя не, всё равно блокируется после Press и до Release, чего я впринципе хочу избежать ;'-}
-                var item = (Control) logic;
-                var tb = item.TransformedBounds;
-                // if (tb != null && new Rect(tb.Value.Clip.TopLeft, new Size()).Sum(item.Bounds).Contains(pos) && (string?) item.Tag != "Join") res = item; // Гениально! ;'-} НАКОНЕЦ-ТО ЗАРАБОТАЛО! (Так было в 8 лабе)
-                if (tb != null && tb.Value.Bounds.TransformToAABB(tb.Value.Transform).Contains(pos) && (string?) item.Tag != "Join") res = item; // Гениально! Апгрейд прошёл успешно :D
-                FixItem(ref res, pos, item.GetLogicalChildren());
-            }
-        }
-        public void Move(Control item, Point pos, bool use_fix = true) {
+        public int GetMode() => mode;
+        public void Move(Control item, Point pos) {
             // Log.Write("PointerMoved: " + item.GetType().Name + " pos: " + pos);
-
-            if (use_fix && (mode == 5 || mode == 6 || mode == 7 || mode == 8)) {
-                var tb = canv.TransformedBounds;
-                if (tb != null) {
-                    item = new Canvas() { Tag = "Scene" };
-                    var bounds = tb.Value.Bounds.TransformToAABB(tb.Value.Transform);
-                    FixItem(ref item, pos + bounds.TopLeft, canv.Children);
-                    // Log.Write("tag: " + item.Tag);
-                }
-            }
 
             string[] mods = new[] { "In", "Out", "IO" };
             var tag = (string?) item.Tag;
@@ -337,13 +289,12 @@ namespace LogicSimulator.Models {
                 break;
             case 5 or 6 or 7:
                 var end_pos = marker_circle == null ? pos : marker_circle.Center(canv);
-                marker.EndPoint = end_pos;
+                Marker_SetState?.Invoke(null, null, end_pos);
                 break;
             case 8:
                 if (old_join == null) break;
                 var p = marker_circle == null ? pos : marker_circle.Center(canv);
-                if (join_start) marker.EndPoint = p;
-                else marker.StartPoint = p;
+                Marker_SetState?.Invoke(null, join_start ? null : p, join_start ? p : null);
                 break;
             }
         }
@@ -351,8 +302,8 @@ namespace LogicSimulator.Models {
         public bool tapped = false; // Обрабатывается после Release
         public Point tap_pos; // Обрабатывается после Release
 
-        public int Release(Control item, Point pos, bool use_fix = true) {
-            Move(item, pos, use_fix);
+        public int Release(Control item, Point pos) {
+            Move(item, pos);
             // Log.Write("PointerReleased: " + item.GetType().Name + " pos: " + pos);
 
             switch (mode) {
@@ -366,7 +317,7 @@ namespace LogicSimulator.Models {
                     var newy = new JoinedItems(start_dist, end_dist);
                     AddToMap(newy.line);
                 }
-                marker.IsVisible = false;
+                Marker_SetState?.Invoke(false, null, null);
                 marker_mode = 0;
                 break;
             case 8:
@@ -381,7 +332,7 @@ namespace LogicSimulator.Models {
                     AddToMap(newy.line);
                 } else old_join.IsVisible = true;
 
-                marker.IsVisible = false;
+                Marker_SetState?.Invoke(false, null, null);
                 marker_mode = 0;
                 old_join = null;
 
@@ -423,9 +374,9 @@ namespace LogicSimulator.Models {
             }
         }
 
-        public void WheelMove(Control item, double move, Point pos) {
+        public void WheelMove(IGate? item, string? tag, double move, Point pos) {
             // Log.Write("WheelMoved: " + item.GetType().Name + " delta: " + (move > 0 ? 1 : -1));
-            int mode = CalcMode((string?) item.Tag);
+            int mode = CalcMode(tag);
             double scale = move > 0 ? 1.1 : 1 / 1.1;
             double inv_scale = 1 / scale;
 
@@ -443,15 +394,14 @@ namespace LogicSimulator.Models {
                 UpdateMarker();
                 break;
             case 2:
-                var gate2 = GetGate(item);
-                if (gate2 == null) return;
-                gate2.ChangeScale(inv_scale);
+                if (item == null) return;
+                item.ChangeScale(inv_scale);
                 UpdateMarker();
                 break;
             }
         }
 
-        public void KeyPressed(Control _, Key key) {
+        public void KeyPressed(Key key) {
             // Log.Write("KeyPressed: " + item.GetType().Name + " key: " + key);
             switch (key) {
             case Key.Up:

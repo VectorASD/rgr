@@ -1,7 +1,6 @@
-using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
-using LogicSimulator.ViewModels;
+using LogicSimulator.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +9,6 @@ namespace LogicSimulator.Views.Shapes {
     public partial class LightBulb: GateBase, IGate, INotifyPropertyChanged {
         public override int TypeId => 7;
 
-        public override UserControl GetSelf() => this;
         protected override IGate GetSelfI => this;
         protected override int[][] Sides => new int[][] {
             Array.Empty<int>(),

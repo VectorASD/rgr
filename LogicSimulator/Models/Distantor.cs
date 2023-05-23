@@ -1,7 +1,7 @@
 ﻿using Avalonia;
-using LogicSimulator.Views.Shapes;
 
-namespace LogicSimulator.Models {
+namespace LogicSimulator.Models
+{
     public class Distantor {
         public readonly int num;
         public IGate parent;

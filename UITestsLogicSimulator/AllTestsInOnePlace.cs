@@ -8,10 +8,11 @@ using LogicSimulator.Views.Shapes;
 using System.Text;
 using Button = Avalonia.Controls.Button;
 
-namespace UITestsLogicSimulator {
+namespace UITestsLogicSimulator
+{
     public class AllTestsInOnePlace {
         private readonly LauncherWindow launcherWindow = AvaloniaApp.GetMainWindow();
-        private readonly MainWindow mainWindow = LauncherWindowViewModel.GetMW;
+        private readonly MainWindow mainWindow = LauncherWindow.GetMW;
         private readonly Mapper map = ViewModelBase.map;
 
         private readonly Canvas canv;
@@ -66,7 +67,7 @@ namespace UITestsLogicSimulator {
         private void Move(Control a, Control b) {
             map.Move(a, new());
             map.Press(a, new());
-            /*int mode = */ map.Release(b, new(100, 100), false); // В себе уже имеет map.Move(target, pos2)
+            /*int mode = */ map.Release(b, new(100, 100)); // В себе уже имеет map.Move(target, pos2)
             // Log("Moved: " + map.tapped + " | " + mode);
         }
         private string Export() {
@@ -107,7 +108,7 @@ namespace UITestsLogicSimulator {
 
 
 
-        private string ComplexSolution(bool lol = false) {
+        private string ComplexSolution() {
             var sim = map.sim;
             sim.ComparativeTestMode = true;
 

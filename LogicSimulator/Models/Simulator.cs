@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicSimulator.Models {
+namespace LogicSimulator.Models
+{
     public class Meta {
         public IGate? item;
         public int[] ins;

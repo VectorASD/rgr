@@ -5,7 +5,7 @@ namespace LogicSimulator.ViewModels {
     public class ViewModelBase: ReactiveObject {
         public readonly static Mapper map = new();
         private static Project? current_proj;
-        protected static Project? CurrentProj {
+        public static Project? CurrentProj {
             get => current_proj;
             set {
                 if (value == null) return;
