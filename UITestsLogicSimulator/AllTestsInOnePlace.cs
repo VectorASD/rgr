@@ -52,8 +52,8 @@ namespace UITestsLogicSimulator
 
         private IGate? Click(Control target, double x, double y) {
             var pos = new Point(x, y);
-            map.Press(target, pos);
-            int mode = map.Release(target, pos);
+            map.Press(GetGate(target), (string?) target.Tag, pos);
+            int mode = map.Release(GetGate(target), (string?) target.Tag, pos);
             // Log("Tapped: " + map.tapped + " | " + mode);
             if (map.tapped && mode == 1) {
                 var tpos = map.tap_pos;
@@ -79,8 +79,8 @@ namespace UITestsLogicSimulator
         }
         private void Move(Control a, Control b) {
             map.Move(GetGate(a), (string?) a.Tag, new());
-            map.Press(a, new());
-            /*int mode = */ map.Release(b, new(100, 100)); // В себе уже имеет map.Move(target, pos2)
+            map.Press(GetGate(a), (string?) a.Tag, new());
+            /*int mode = */ map.Release(GetGate(b), (string?) b.Tag, new(100, 100)); // В себе уже имеет map.Move(target, pos2)
             // Log("Moved: " + map.tapped + " | " + mode);
         }
         private string Export() {

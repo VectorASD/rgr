@@ -1,9 +1,7 @@
-﻿using Avalonia.Controls;
-using Avalonia;
+﻿using Avalonia;
 using System;
 using System.Collections.Generic;
 using DynamicData;
-using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using System.Linq;
 using Avalonia.Input;
@@ -14,8 +12,6 @@ namespace LogicSimulator.Models {
         public Action<bool?, Thickness?, double?, double?>? Marker2_SetState; // IsVisible | Margin | Width | Height 
 
         public readonly Simulator sim = new(); // забавно, но без public рефлексия вообще не видит этот параметр, от чего ER-diagram_exTRACTOR теряет одну стрелочку зависимости...
-
-        public Canvas canv = new();
 
         /*
          * Маркер
@@ -69,10 +65,6 @@ namespace LogicSimulator.Models {
         public delegate void AddHandler(IGate gate);
         public event AddHandler? AddItemToCanvas;
 
-        private void AddToMap(IControl item) {
-            canv.Children.Add(item);
-        }
-
         public void AddItem(IGate item) {
             items.Add(item);
             sim.AddItem(item);
@@ -92,7 +84,6 @@ namespace LogicSimulator.Models {
             sim.RemoveItem(item);
 
             item.ClearJoins();
-            ((Control) item).Remove();
         }
         public void RemoveAll() {
             foreach (var item in items.ToArray()) RemoveItem(item);
@@ -135,29 +126,10 @@ namespace LogicSimulator.Models {
                 "Pin" or _ => 0,
             };
         }
-        private void UpdateMode(Control item) => mode = CalcMode((string?) item.Tag);
 
-        private static bool IsMode(Control item, string[] mods) {
-            var name = (string?) item.Tag;
-            if (name == null) return false;
-            return mods.IndexOf(name) != -1;
-        }
         private static bool IsMode(string? tag, string[] mods) {
             if (tag == null) return false;
             return mods.IndexOf(tag) != -1;
-        }
-
-        private static UserControl? GetUC(Control item) {
-            while (item.Parent != null) {
-                if (item is UserControl @UC) return @UC;
-                item = (Control) item.Parent;
-            }
-            return null;
-        }
-        private static IGate? GetGate(Control item) {
-            var UC = GetUC(item);
-            if (UC is IGate @gate) return @gate;
-            return null;
         }
 
         /*
@@ -172,20 +144,25 @@ namespace LogicSimulator.Models {
         Distantor? start_dist;
         int marker_mode;
 
-        Line? old_join;
-        bool join_start;
+        public Func<Point, string?>? JoinPressed;
+        public Action<Point>? JoinMoved;
+        public Action<bool>? JoinReleased;
+        public Func<JoinedItems?>? JoinTapped;
+        public Action<bool, Distantor, Distantor>? CreateJoin;
+        public Action? UpdateNewJoins;
+
         bool delete_join = false;
 
         public bool lock_self_connect = true;
 
-        public void Press(Control item, Point pos) {
+        public void Press(IGate? item, string? tag, Point pos) {
             // Log.Write("PointerPressed: " + item.GetType().Name + " pos: " + pos);
-
-            UpdateMode(item);
+            
+            mode = CalcMode(tag);
             // Log.Write("new_mode: " + mode);
 
             moved_pos = pos;
-            moved_item = GetGate(item);
+            moved_item = item;
             tapped = true;
             if (moved_item != null) item_old_pos = moved_item.GetPos();
 
@@ -206,30 +183,12 @@ namespace LogicSimulator.Models {
                 marker_mode = mode;
                 break;
             case 8:
-                if (item is not Line @join) break;
-                JoinedItems.arrow_to_join.TryGetValue(@join, out var @join2);
-                if (@join2 == null) break;
-
-                if (marked_line == @join2) {
-                    marked_line = null;
-                    UpdateMarker();
-                }
-
-                var dist_a = @join.StartPoint.Hypot(pos);
-                var dist_b = @join.EndPoint.Hypot(pos);
-                join_start = dist_a > dist_b;
-                old_join = @join;
-
-                Marker_SetState?.Invoke(true,
-                    join_start ? @join.StartPoint : pos,
-                    join_start ? pos : @join.EndPoint);
-                marker_mode = CalcMode(join_start ? @join2.A.tag : @join2.B.tag);
-
-                @join.IsVisible = false;
+                var tag2 = JoinPressed?.Invoke(pos);
+                marker_mode = CalcMode(tag2);
                 break;
             }
 
-            Move(GetGate(item), (string?) item.Tag, pos);
+            Move(item, tag, pos);
         }
 
 
@@ -239,7 +198,7 @@ namespace LogicSimulator.Models {
         public Func<Point?>? MarkerCenter;
         public Func<Distantor?>? MarkerToDistantor;
 
-        private ISolidColorBrush transparent = new SolidColorBrush(Color.Parse("#0000"));
+        private readonly ISolidColorBrush transparent = new SolidColorBrush(Color.Parse("#0000"));
 
         public int GetMode() => mode;
         public void Move(IGate? item, string? tag, Point pos) {
@@ -297,9 +256,7 @@ namespace LogicSimulator.Models {
                 Marker_SetState?.Invoke(null, null, end_pos);
                 break;
             case 8:
-                if (old_join == null) break;
-                var p = MarkerCenter?.Invoke() ?? pos;
-                Marker_SetState?.Invoke(null, join_start ? null : p, join_start ? p : null);
+                JoinMoved?.Invoke(pos);
                 break;
             }
         }
@@ -307,8 +264,8 @@ namespace LogicSimulator.Models {
         public bool tapped = false; // Обрабатывается после Release
         public Point tap_pos; // Обрабатывается после Release
 
-        public int Release(Control item, Point pos) {
-            Move(GetGate(item), (string?) item.Tag, pos);
+        public int Release(IGate? item, string? tag, Point pos) {
+            Move(item, tag, pos);
             // Log.Write("PointerReleased: " + item.GetType().Name + " pos: " + pos);
 
             switch (mode) {
@@ -318,28 +275,14 @@ namespace LogicSimulator.Models {
                 if (end_dist != null) {
                     // Log.Write("Стартовый элемент: " + start_dist.parent + " (" + start_dist.GetPos() + ")");
                     // Log.Write("Конечный  элемент: " + end_dist.parent   + " (" + end_dist.GetPos()   + ")");
-                    var newy = new JoinedItems(start_dist, end_dist);
-                    AddToMap(newy.line);
+                    CreateJoin?.Invoke(false, start_dist, end_dist);
                 }
                 Marker_SetState?.Invoke(false, null, null);
                 marker_mode = 0;
                 break;
             case 8:
-                if (old_join == null) break;
-                JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join);
-                var p = MarkerToDistantor?.Invoke();
-                if (p != null && @join != null) {
-                    @join.Delete();
-
-                    var newy = join_start ? new JoinedItems(@join.A, p) : new JoinedItems(p, @join.B);
-                    AddToMap(newy.line);
-                } else old_join.IsVisible = true;
-
-                Marker_SetState?.Invoke(false, null, null);
+                JoinReleased?.Invoke(delete_join);
                 marker_mode = 0;
-                old_join = null;
-
-                if (delete_join) @join?.Delete();
                 delete_join = false;
                 break;
             }
@@ -352,8 +295,8 @@ namespace LogicSimulator.Models {
             return res_mode;
         }
 
-        private void Tapped(Control item, Point pos) {
-            // Log.Write("Tapped: " + item.GetType().Name + " pos: " + pos);
+        private void Tapped(IGate? _, Point pos) {
+            // Log.Write("Tapped: " + item.GetType().Name + " pos: " + pos + " mode: " + mode);
             tap_pos = pos;
 
             switch (mode) {
@@ -361,10 +304,10 @@ namespace LogicSimulator.Models {
                 if (moved_item != null) RemoveItem(moved_item);
                 break; */
             case 2 or 8:
-                if (item is Line @line) {
-                    if (!JoinedItems.arrow_to_join.TryGetValue(@line, out var @join)) break;
+                var join = JoinTapped?.Invoke();
+                if (join != null) {
                     marked_item = null;
-                    marked_line = @join;
+                    marked_line = join;
                     UpdateMarker();
                     break;
                 }
@@ -479,7 +422,6 @@ namespace LogicSimulator.Models {
             }
             var items_arr = list.ToArray();
 
-            List<JoinedItems> joinz = new();
             foreach (var obj in current_scheme.joins) {
                 object[] join;
                 if (obj is List<object> @j) join = @j.ToArray();
@@ -489,12 +431,9 @@ namespace LogicSimulator.Models {
                     join[0] is not int @num_a || join[1] is not int @pin_a || join[2] is not string @tag_a ||
                     join[3] is not int @num_b || join[4] is not int @pin_b || join[5] is not string @tag_b) { Log.Write("Содержимое списка соединения ошибочно"); continue; }
 
-                var newy = new JoinedItems(new(items_arr[@num_a], @pin_a, tag_a), new(items_arr[@num_b], @pin_b, tag_b));
-                AddToMap(newy.line);
-                joinz.Add(newy);
+                CreateJoin?.Invoke(true, new(items_arr[@num_a], @pin_a, tag_a), new(items_arr[@num_b], @pin_b, tag_b));
             }
-
-            foreach (var join in joinz) join.Update();
+            UpdateNewJoins?.Invoke();
 
             sim.Import(current_scheme.states);
             sim.lock_sim = false;

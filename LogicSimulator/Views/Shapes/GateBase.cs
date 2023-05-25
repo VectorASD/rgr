@@ -327,6 +327,8 @@ namespace LogicSimulator.Views.Shapes {
             foreach (var join in joins_in) join?.Delete();
             foreach (var joins in joins_out)
                 foreach (var join in joins.ToArray()) join.Delete();
+
+            this.Remove();
         }
 
         public void SetJoinColor(int o_num, bool value) {

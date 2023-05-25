@@ -22,10 +22,18 @@ namespace LogicSimulator.Views {
             var map = ViewModelBase.map;
             map.Marker_SetState = Marker_SetState;
             map.Marker2_SetState = Marker2_SetState;
+
             map.SetEllipseMarker = SetEllipseMarker;
             map.SetMarkerColor = SetMarkerColor;
             map.MarkerCenter = MarkerCenter;
             map.MarkerToDistantor = MarkerToDistantor;
+
+            map.JoinPressed = JoinPressed;
+            map.JoinMoved = JoinMoved;
+            map.JoinReleased = JoinReleased;
+            map.JoinTapped = JoinTapped;
+            map.CreateJoin = CreateJoin;
+            map.UpdateNewJoins = UpdateNewJoins;
 
             mwvm = new MainWindowViewModel();
             DataContext = mwvm;
@@ -77,7 +85,7 @@ namespace LogicSimulator.Views {
             marker_A.Fill = fill;
             marker_A.Stroke = stroke;
         }
-        Point? MarkerCenter() => marker_A == null ? null : marker_A.Center(canv);
+        Point? MarkerCenter() => marker_A?.Center(canv);
         Distantor? MarkerToDistantor() {
             if (marker_A == null) return null;
             var gate = GetGate(marker_A) ?? throw new Exception("Чё?!"); // Такого не бывает
@@ -104,6 +112,72 @@ namespace LogicSimulator.Views {
                 11 => new AND_8(),
                 _ => new AND_2(),
             };
+        }
+
+        /*
+         * Соединения
+         */
+
+        Line? old_join;
+        bool join_start;
+
+        string? JoinPressed(Point pos) {
+            if (old_join == null) return null;
+
+            JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join2);
+            if (@join2 == null) return null;
+
+            /* if (marked_line == @join2) {
+                marked_line = null;
+                UpdateMarker();
+            }*/
+
+            var dist_a = old_join.StartPoint.Hypot(pos);
+            var dist_b = old_join.EndPoint.Hypot(pos);
+            join_start = dist_a > dist_b;
+
+            Marker_SetState(true,
+                join_start ? old_join.StartPoint : pos,
+                join_start ? pos : old_join.EndPoint);
+            old_join.IsVisible = false;
+            return join_start ? @join2.A.tag : @join2.B.tag;
+            // marker_mode = CalcMode(join_start ? @join2.A.tag : @join2.B.tag);
+        }
+        void JoinMoved(Point pos) {
+            var p = MarkerCenter() ?? pos;
+            Marker_SetState(null, join_start ? null : p, join_start ? p : null);
+        }
+        void JoinReleased(bool delete_join) {
+            if (old_join == null) return;
+            JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join);
+            var p = MarkerToDistantor();
+            if (p != null && @join != null) {
+                @join.Delete();
+
+                var newy = join_start ? new JoinedItems(@join.A, p) : new JoinedItems(p, @join.B);
+                canv.Children.Add(newy.line);
+            } else old_join.IsVisible = true;
+
+            Marker_SetState(false, null, null);
+            old_join = null;
+
+            if (delete_join) @join?.Delete();
+        }
+        JoinedItems? JoinTapped() {
+            if (old_join == null) return null;
+            if (!JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join)) return null;
+            return @join;
+        }
+
+        readonly List<JoinedItems> joins = new();
+        void CreateJoin(bool add_to_list, Distantor start, Distantor end) {
+            var newy = new JoinedItems(start, end);
+            canv.Children.Add(newy.line);
+            if (add_to_list) joins.Add(newy);
+        }
+        void UpdateNewJoins() {
+            foreach (var join in joins) join.Update();
+            joins.Clear();
         }
 
         /*
@@ -152,7 +226,6 @@ namespace LogicSimulator.Views {
             canv = this.Find<Canvas>("Canvas");
             var map = ViewModelBase.map;
 
-            map.canv = canv;
             if (canv == null) return; // Такого не бывает
 
             canv.Children.Add(marker);
@@ -164,7 +237,8 @@ namespace LogicSimulator.Views {
             panel.PointerPressed += (object? sender, PointerPressedEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) {
                     last_item = @control is Ellipse @ellipse ? @ellipse : null;
-                    map.Press(@control, e.GetCurrentPoint(canv).Position);
+                    old_join = @control is Line @line ? @line : null;
+                    map.Press(GetGate(@control), (string?) @control.Tag, e.GetCurrentPoint(canv).Position);
                 }
             };
             panel.PointerMoved += (object? sender, PointerEventArgs e) => {
@@ -180,7 +254,7 @@ namespace LogicSimulator.Views {
                     var pos = e.GetCurrentPoint(canv).Position;
                     var item = FixItem(@control, canv, pos);
                     last_item = item is Ellipse @ellipse ? @ellipse : null;
-                    int mode = map.Release(item, pos);
+                    int mode = map.Release(GetGate(item), (string?) item.Tag, pos);
 
                     bool tap = map.tapped;
                     if (tap && mode == 1) {
