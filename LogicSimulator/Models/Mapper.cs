@@ -136,11 +136,15 @@ namespace LogicSimulator.Models {
             };
         }
         private void UpdateMode(Control item) => mode = CalcMode((string?) item.Tag);
-        
+
         private static bool IsMode(Control item, string[] mods) {
             var name = (string?) item.Tag;
             if (name == null) return false;
             return mods.IndexOf(name) != -1;
+        }
+        private static bool IsMode(string? tag, string[] mods) {
+            if (tag == null) return false;
+            return mods.IndexOf(tag) != -1;
         }
 
         private static UserControl? GetUC(Control item) {
@@ -165,7 +169,6 @@ namespace LogicSimulator.Models {
         Point item_old_pos;
         Size item_old_size;
 
-        Ellipse? marker_circle;
         Distantor? start_dist;
         int marker_mode;
 
@@ -195,9 +198,8 @@ namespace LogicSimulator.Models {
                 item_old_size = moved_item.GetBodySize();
                 break;
             case 5 or 6 or 7:
-                if (marker_circle == null) break;
-                var gate = GetGate(marker_circle) ?? throw new Exception("Чё?!"); // Такого не бывает
-                start_dist = gate.GetPin(marker_circle);
+                start_dist = MarkerToDistantor?.Invoke();
+                if (start_dist == null) break;
 
                 var circle_pos = start_dist.GetPos();
                 Marker_SetState?.Invoke(true, circle_pos, circle_pos);
@@ -227,33 +229,36 @@ namespace LogicSimulator.Models {
                 break;
             }
 
-            Move(item, pos);
+            Move(GetGate(item), (string?) item.Tag, pos);
         }
 
+
+
+        public Action<bool>? SetEllipseMarker;
+        public Action<ISolidColorBrush, ISolidColorBrush>? SetMarkerColor;
+        public Func<Point?>? MarkerCenter;
+        public Func<Distantor?>? MarkerToDistantor;
+
+        private ISolidColorBrush transparent = new SolidColorBrush(Color.Parse("#0000"));
+
         public int GetMode() => mode;
-        public void Move(Control item, Point pos) {
+        public void Move(IGate? item, string? tag, Point pos) {
             // Log.Write("PointerMoved: " + item.GetType().Name + " pos: " + pos);
 
             string[] mods = new[] { "In", "Out", "IO" };
-            var tag = (string?) item.Tag;
-            if (IsMode(item, mods) && item is Ellipse @ellipse
+            if (IsMode(tag, mods)
                 && !(marker_mode == 5 && tag == "In" || marker_mode == 6 && tag == "Out" ||
-                lock_self_connect && moved_item == GetGate(item))) { // То самое место, что не даёт подключить вход ко входу, либо выход к выходу
+                lock_self_connect && moved_item == item)) { // То самое место, что не даёт подключить вход ко входу, либо выход к выходу
 
-                if (marker_circle != null && marker_circle != @ellipse) { // На случай моментального перехода курсором с одного кружка на другой
-                    marker_circle.Fill = new SolidColorBrush(Color.Parse("#0000"));
-                    marker_circle.Stroke = Brushes.Gray;
-                }
-                marker_circle = @ellipse;
-                @ellipse.Fill = Brushes.Lime;
-                @ellipse.Stroke = Brushes.Green;
-            } else if (marker_circle != null) {
-                marker_circle.Fill = new SolidColorBrush(Color.Parse("#0000"));
-                marker_circle.Stroke = Brushes.Gray;
-                marker_circle = null;
+                SetMarkerColor?.Invoke(transparent, Brushes.Gray);
+                SetEllipseMarker?.Invoke(false);
+                SetMarkerColor?.Invoke(Brushes.Lime, Brushes.Green);
+            } else {
+                SetMarkerColor?.Invoke(transparent, Brushes.Gray);
+                SetEllipseMarker?.Invoke(true);
             }
 
-            if (mode == 8) delete_join = (string?) item.Tag == "Deleter";
+            if (mode == 8) delete_join = tag == "Deleter";
 
             /* if (mode == 0 && (string?) item.Tag == "Join") { DEBUG
                 JoinedItems.arrow_to_join.TryGetValue((Line) item, out var @join);
@@ -288,12 +293,12 @@ namespace LogicSimulator.Models {
                 UpdateMarker();
                 break;
             case 5 or 6 or 7:
-                var end_pos = marker_circle == null ? pos : marker_circle.Center(canv);
+                var end_pos = MarkerCenter?.Invoke() ?? pos;
                 Marker_SetState?.Invoke(null, null, end_pos);
                 break;
             case 8:
                 if (old_join == null) break;
-                var p = marker_circle == null ? pos : marker_circle.Center(canv);
+                var p = MarkerCenter?.Invoke() ?? pos;
                 Marker_SetState?.Invoke(null, join_start ? null : p, join_start ? p : null);
                 break;
             }
@@ -303,15 +308,14 @@ namespace LogicSimulator.Models {
         public Point tap_pos; // Обрабатывается после Release
 
         public int Release(Control item, Point pos) {
-            Move(item, pos);
+            Move(GetGate(item), (string?) item.Tag, pos);
             // Log.Write("PointerReleased: " + item.GetType().Name + " pos: " + pos);
 
             switch (mode) {
             case 5 or 6 or 7:
                 if (start_dist == null) break;
-                if (marker_circle != null) {
-                    var gate = GetGate(marker_circle) ?? throw new Exception("Чё?!"); // Такого не бывает
-                    var end_dist = gate.GetPin(marker_circle);
+                var end_dist = MarkerToDistantor?.Invoke();
+                if (end_dist != null) {
                     // Log.Write("Стартовый элемент: " + start_dist.parent + " (" + start_dist.GetPos() + ")");
                     // Log.Write("Конечный  элемент: " + end_dist.parent   + " (" + end_dist.GetPos()   + ")");
                     var newy = new JoinedItems(start_dist, end_dist);
@@ -323,9 +327,8 @@ namespace LogicSimulator.Models {
             case 8:
                 if (old_join == null) break;
                 JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join);
-                if (marker_circle != null && @join != null) {
-                    var gate = GetGate(marker_circle) ?? throw new Exception("Чё?!"); // Такого не бывает
-                    var p = gate.GetPin(marker_circle);
+                var p = MarkerToDistantor?.Invoke();
+                if (p != null && @join != null) {
                     @join.Delete();
 
                     var newy = join_start ? new JoinedItems(@join.A, p) : new JoinedItems(p, @join.B);

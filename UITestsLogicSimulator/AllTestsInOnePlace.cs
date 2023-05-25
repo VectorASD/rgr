@@ -64,8 +64,21 @@ namespace UITestsLogicSimulator
             }
             return null;
         }
+
+        private static UserControl? GetUC(Control item) {
+            while (item.Parent != null) {
+                if (item is UserControl @UC) return @UC;
+                item = (Control) item.Parent;
+            }
+            return null;
+        }
+        private static IGate? GetGate(Control item) {
+            var UC = GetUC(item);
+            if (UC is IGate @gate) return @gate;
+            return null;
+        }
         private void Move(Control a, Control b) {
-            map.Move(a, new());
+            map.Move(GetGate(a), (string?) a.Tag, new());
             map.Press(a, new());
             /*int mode = */ map.Release(b, new(100, 100)); // В себе уже имеет map.Move(target, pos2)
             // Log("Moved: " + map.tapped + " | " + mode);

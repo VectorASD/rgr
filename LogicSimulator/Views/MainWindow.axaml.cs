@@ -8,6 +8,7 @@ using Avalonia.Media;
 using LogicSimulator.Models;
 using LogicSimulator.ViewModels;
 using LogicSimulator.Views.Shapes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,10 @@ namespace LogicSimulator.Views {
             var map = ViewModelBase.map;
             map.Marker_SetState = Marker_SetState;
             map.Marker2_SetState = Marker2_SetState;
+            map.SetEllipseMarker = SetEllipseMarker;
+            map.SetMarkerColor = SetMarkerColor;
+            map.MarkerCenter = MarkerCenter;
+            map.MarkerToDistantor = MarkerToDistantor;
 
             mwvm = new MainWindowViewModel();
             DataContext = mwvm;
@@ -60,6 +65,23 @@ namespace LogicSimulator.Views {
             }
             if (w != null) marker2.Width = (double) w;
             if (h != null) marker2.Height = (double) h;
+        }
+
+        // Дальше идут методы исправления проблем MVVM элитного уровня сложности ;'-}
+
+        Ellipse? last_item;
+        Ellipse? marker_A; // Заменяет в картографе marker_circle
+        void SetEllipseMarker(bool clear) => marker_A = clear ? null : last_item;
+        void SetMarkerColor(ISolidColorBrush fill, ISolidColorBrush stroke) {
+            if (marker_A == null) return;
+            marker_A.Fill = fill;
+            marker_A.Stroke = stroke;
+        }
+        Point? MarkerCenter() => marker_A == null ? null : marker_A.Center(canv);
+        Distantor? MarkerToDistantor() {
+            if (marker_A == null) return null;
+            var gate = GetGate(marker_A) ?? throw new Exception("Чё?!"); // Такого не бывает
+            return gate.GetPin(marker_A);
         }
 
         /*
@@ -125,8 +147,9 @@ namespace LogicSimulator.Views {
             return item ?? new Canvas() { Tag = "Scene" };
         }
 
+        private Canvas canv = new();
         public void AddWindow() {
-            var canv = this.Find<Canvas>("Canvas");
+            canv = this.Find<Canvas>("Canvas");
             var map = ViewModelBase.map;
 
             map.canv = canv;
@@ -139,18 +162,25 @@ namespace LogicSimulator.Views {
             if (panel == null) return; // Такого не бывает
 
             panel.PointerPressed += (object? sender, PointerPressedEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) map.Press(@control, e.GetCurrentPoint(canv).Position);
+                if (e.Source != null && e.Source is Control @control) {
+                    last_item = @control is Ellipse @ellipse ? @ellipse : null;
+                    map.Press(@control, e.GetCurrentPoint(canv).Position);
+                }
             };
             panel.PointerMoved += (object? sender, PointerEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) {
                     var pos = e.GetCurrentPoint(canv).Position;
-                    map.Move(FixItem(@control, canv, pos), pos);
+                    var item = FixItem(@control, canv, pos);
+                    last_item = item is Ellipse @ellipse ? @ellipse : null;
+                    map.Move(GetGate(item), (string?) item.Tag, pos);
                 }
             };
             panel.PointerReleased += (object? sender, PointerReleasedEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) {
                     var pos = e.GetCurrentPoint(canv).Position;
-                    int mode = map.Release(FixItem(@control, canv, pos), pos);
+                    var item = FixItem(@control, canv, pos);
+                    last_item = item is Ellipse @ellipse ? @ellipse : null;
+                    int mode = map.Release(item, pos);
 
                     bool tap = map.tapped;
                     if (tap && mode == 1) {
