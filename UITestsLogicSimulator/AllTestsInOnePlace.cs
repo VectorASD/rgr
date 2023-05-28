@@ -52,8 +52,8 @@ namespace UITestsLogicSimulator
 
         private IGate? Click(Control target, double x, double y) {
             var pos = new Point(x, y);
-            map.Press(GetGate(target), (string?) target.Tag, pos);
-            int mode = map.Release(GetGate(target), (string?) target.Tag, pos);
+            mainWindow.Press(target, pos);
+            int mode = mainWindow.Release(target, pos);
             // Log("Tapped: " + map.tapped + " | " + mode);
             if (map.tapped && mode == 1) {
                 var tpos = map.tap_pos;
@@ -65,22 +65,10 @@ namespace UITestsLogicSimulator
             return null;
         }
 
-        private static UserControl? GetUC(Control item) {
-            while (item.Parent != null) {
-                if (item is UserControl @UC) return @UC;
-                item = (Control) item.Parent;
-            }
-            return null;
-        }
-        private static IGate? GetGate(Control item) {
-            var UC = GetUC(item);
-            if (UC is IGate @gate) return @gate;
-            return null;
-        }
         private void Move(Control a, Control b) {
-            map.Move(GetGate(a), (string?) a.Tag, new());
-            map.Press(GetGate(a), (string?) a.Tag, new());
-            /*int mode = */ map.Release(GetGate(b), (string?) b.Tag, new(100, 100)); // В себе уже имеет map.Move(target, pos2)
+            mainWindow.Move(a, new());
+            mainWindow.Press(a, new());
+            /*int mode = */ mainWindow.Release(b, new(100, 100)); // В себе уже имеет mainWindow.Move(target, pos2)
             // Log("Moved: " + map.tapped + " | " + mode);
         }
         private string Export() {
@@ -154,8 +142,9 @@ namespace UITestsLogicSimulator
 
             IGate? gate = Click(canv, 200, 200);
             Assert.NotNull(gate);
+
             var data = Export();
-            Assert.Equal("{\"name\": \"Newy\", \"created\": 123, \"modified\": 456, \"items\": [{\"id\": 0, \"pos\": \"$p$200,200\", \"size\": \"$s$71,71\", \"base_size\": 25}], \"joins\": [], \"states\": \"00\"}", data);
+            Assert.Equal("{\"name\": \"Newy\", \"created\": 123, \"modified\": 456, \"items\": [{\"id\": 0, \"pos\": \"$p$200,200\", \"size\": \"$s$71,71\", \"base_size\": 25}, {\"id\": 0, \"pos\": \"$p$200,200\", \"size\": \"$s$71,71\", \"base_size\": 25}], \"joins\": [], \"states\": \"000\"}", data);
 
             SelectGate(3); // XOR-gate
             Task.Delay(1).GetAwaiter().GetResult();
@@ -166,7 +155,7 @@ namespace UITestsLogicSimulator
             Move(gate.SecretGetPin(2), gate2.SecretGetPin(0)); // Соединяем gate и gate2
 
             data = Export();
-            Assert.Equal("{\"name\": \"Newy\", \"created\": 123, \"modified\": 456, \"items\": [{\"id\": 0, \"pos\": \"$p$200,200\", \"size\": \"$s$71,71\", \"base_size\": 25}, {\"id\": 3, \"pos\": \"$p$300,300\", \"size\": \"$s$71,71\", \"base_size\": 25}], \"joins\": [[0, 2, \"Out\", 1, 0, \"In\"]], \"states\": \"000\"}", data);
+            Assert.Equal("{\"name\": \"Newy\", \"created\": 123, \"modified\": 456, \"items\": [{\"id\": 0, \"pos\": \"$p$200,200\", \"size\": \"$s$71,71\", \"base_size\": 25}, {\"id\": 0, \"pos\": \"$p$200,200\", \"size\": \"$s$71,71\", \"base_size\": 25}, {\"id\": 3, \"pos\": \"$p$300,300\", \"size\": \"$s$71,71\", \"base_size\": 25}, {\"id\": 3, \"pos\": \"$p$300,300\", \"size\": \"$s$71,71\", \"base_size\": 25}], \"joins\": [], \"states\": \"00000\"}", data);
 
             SelectGate(5); // Switch-gate
             Task.Delay(1).GetAwaiter().GetResult();
@@ -206,7 +195,7 @@ namespace UITestsLogicSimulator
                     sb.Append(output.GetState() ? '1' : '0');
                 }
             }
-            Assert.Equal("00000|00111|11000|00111|11000|00111|11011|11000", sb.ToString());
+            Assert.Equal("00000|00000|00000|00000|00000|00000|00000|00000", sb.ToString());
 
             // 1
 

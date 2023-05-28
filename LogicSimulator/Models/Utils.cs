@@ -699,8 +699,7 @@ namespace LogicSimulator.Models {
             return res;
         }
         public static T? GetResource<T>(this string name) {
-            var app = Application.Current;
-            if (app == null) throw new Exception("Чё?!"); // Такого просто не бывает, но надо ;'-}
+            var app = Application.Current ?? throw new Exception("Чё?!"); // Такого просто не бывает, но надо ;'-}
             var ress = app.Resources;
             return (T?) ress[name];
         }

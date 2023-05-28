@@ -223,6 +223,32 @@ namespace LogicSimulator.Views {
         }
 
         private Canvas canv = new();
+
+        public void Press(Control control, Point pos) {
+            last_item = control is Ellipse @ellipse ? @ellipse : null;
+            old_join = join_line = control is Line @line ? @line : null;
+            map.Press(GetGate(control), (string?) control.Tag, pos);
+        }
+        public void Move(Control control, Point pos) {
+            var item = FixItem(control, canv, pos);
+            last_item = item is Ellipse @ellipse ? @ellipse : null;
+            map.Move(GetGate(item), (string?) item.Tag, pos);
+        }
+        public int Release(Control control, Point pos) {
+            var item = FixItem(control, canv, pos);
+            last_item = item is Ellipse @ellipse ? @ellipse : null;
+            int mode = map.Release(GetGate(item), (string?) item.Tag, pos);
+
+            bool tap = map.tapped;
+            if (tap && mode == 1) {
+                var newy = map.GenSelectedItem();
+                newy.Move(map.tap_pos);
+                map.AddItem(newy);
+            }
+
+            return mode;
+        }
+
         public void AddWindow() {
             canv = this.Find<Canvas>("Canvas");
 
@@ -235,36 +261,16 @@ namespace LogicSimulator.Views {
             if (panel == null) return; // Такого не бывает
 
             panel.PointerPressed += (object? sender, PointerPressedEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) {
-                    last_item = @control is Ellipse @ellipse ? @ellipse : null;
-                    old_join = join_line = @control is Line @line ? @line : null;
-                    map.Press(GetGate(@control), (string?) @control.Tag, e.GetCurrentPoint(canv).Position);
-                }
+                if (e.Source != null && e.Source is Control @control)
+                    Press(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerMoved += (object? sender, PointerEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) {
-                    var pos = e.GetCurrentPoint(canv).Position;
-                    var item = FixItem(@control, canv, pos);
-                    last_item = item is Ellipse @ellipse ? @ellipse : null;
-                    map.Move(GetGate(item), (string?) item.Tag, pos);
-                }
+                if (e.Source != null && e.Source is Control @control)
+                    Move(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerReleased += (object? sender, PointerReleasedEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) {
-                    var pos = e.GetCurrentPoint(canv).Position;
-                    var item = FixItem(@control, canv, pos);
-                    last_item = item is Ellipse @ellipse ? @ellipse : null;
-                    int mode = map.Release(GetGate(item), (string?) item.Tag, pos);
-
-                    bool tap = map.tapped;
-                    if (tap && mode == 1) {
-                        if (canv == null) return; // Такого не бывает
-
-                        var newy = map.GenSelectedItem();
-                        newy.Move(map.tap_pos);
-                        map.AddItem(newy);
-                    }
-                }
+                if (e.Source != null && e.Source is Control @control)
+                    Release(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerWheelChanged += (object? sender, PointerWheelEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) map.WheelMove(GetGate(@control), (string?) @control.Tag, e.Delta.Y, e.GetCurrentPoint(canv).Position);
