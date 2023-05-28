@@ -94,6 +94,10 @@ namespace LogicSimulator.Models {
             foreach (var item in items) item.SavePose();
         }
 
+        public void GlobalUpdate() {
+            foreach (var item in items) item.GlobalUpdate();
+        }
+
         /*
          * Определение режима перемещения
          */

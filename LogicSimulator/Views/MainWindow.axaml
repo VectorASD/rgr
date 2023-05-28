@@ -50,6 +50,11 @@
 			<Panel Grid.Column="1">
 				<TextBlock Text="{Binding Logg}" Background="AliceBlue"/>
 				<Canvas Tag="Scene" Name="Canvas" Background="#0000"/>
+				<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+					<Button Command="{Binding ResizerOption}" Padding="0" Background="#0000">
+						<Image Width="48" Height="48" Source="/Assets/ResizerHide.png" Name="ResizerShow"/>
+					</Button>
+				</StackPanel>
 			</Panel>
 			<ListBox Items="{Binding ItemTypes}" SelectedIndex="{Binding SelectedItem}" Name="Gates" VirtualizationMode="None">
 				<ListBox.ItemTemplate>

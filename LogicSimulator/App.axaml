@@ -9,4 +9,10 @@
     <Application.Styles>
         <FluentTheme Mode="Light"/>
     </Application.Styles>
+
+
+	<Application.Resources>
+		<Image x:Key="ResizerShow" Source="/Assets/ResizerShow.png"/>
+		<Image x:Key="ResizerHide" Source="/Assets/ResizerHide.png"/>
+	</Application.Resources>
 </Application>

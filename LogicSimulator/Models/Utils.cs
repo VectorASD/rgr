@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Collections;
 using System.Diagnostics;
 using System;
+using Avalonia.LogicalTree;
 
 namespace LogicSimulator.Models {
     public static class Utils {
@@ -687,6 +688,21 @@ namespace LogicSimulator.Models {
         }
         public static string UnixTimeStampToString(this long unixTimeStamp) {
             return UnixTimeStampToDateTime(unixTimeStamp).ToString("yyyy/MM/dd H:mm:ss");
+        }
+
+        public static List<T> FindLogicalDescendantsOfType<T>(this ILogical node, List<T>? res = null) {
+            res ??= new();
+            foreach (var child in node.LogicalChildren) {
+                if (child is T @yeah) res.Add(@yeah);
+                FindLogicalDescendantsOfType(child, res);
+            }
+            return res;
+        }
+        public static T? GetResource<T>(this string name) {
+            var app = Application.Current;
+            if (app == null) throw new Exception("Чё?!"); // Такого просто не бывает, но надо ;'-}
+            var ress = app.Resources;
+            return (T?) ress[name];
         }
     }
 }

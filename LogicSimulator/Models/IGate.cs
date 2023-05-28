@@ -8,6 +8,7 @@ namespace LogicSimulator.Models
     {
         public int CountIns { get; }
         public int CountOuts { get; }
+        public void GlobalUpdate();
 
         public Point GetPos();
         public Size GetSize();

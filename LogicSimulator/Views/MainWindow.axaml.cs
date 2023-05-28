@@ -209,7 +209,7 @@ namespace LogicSimulator.Views {
             }
         }
         private Control FixItem(Control old, Canvas canv, Point pos) {
-            int mode = ViewModelBase.map.GetMode();
+            int mode = map.GetMode();
             Control? item = null;
             if (mode != 5 && mode != 6 && mode != 7 && mode != 8) return old;
 
@@ -225,7 +225,6 @@ namespace LogicSimulator.Views {
         private Canvas canv = new();
         public void AddWindow() {
             canv = this.Find<Canvas>("Canvas");
-            var map = ViewModelBase.map;
 
             if (canv == null) return; // Такого не бывает
 
@@ -275,6 +274,7 @@ namespace LogicSimulator.Views {
             };
 
             mwvm.CommUsed += FuncComm;
+            mwvm.FuncResizerOption = FuncResizerOption;
 
             map.AddItemToCanvas += (IGate gate) => {
                 if (gate is UserControl @UC) canv.Children.Add(@UC);
@@ -339,14 +339,12 @@ namespace LogicSimulator.Views {
         public void Update() {
             Log.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    Текущий проект:\n" + ViewModelBase.CurrentProj);
 
-            ViewModelBase.map.ImportScheme();
+            map.ImportScheme();
             mwvm.Update();
             Width++; // ГОРАААААААААААААЗДО больше толку, чем от всех этих НЕРАБОЧИХ через раз RaisePropertyChanged
         }
 
         public void FuncComm(string Comm) {
-            var map = ViewModelBase.map;
-
             switch (Comm) {
             case "Create":
                 var newy = map.filer.CreateProject();
@@ -378,6 +376,14 @@ namespace LogicSimulator.Views {
                 Close();
                 break;
             }
+        }
+
+        private void FuncResizerOption() {
+            GateBase.global_visible = !GateBase.global_visible;
+            map.GlobalUpdate();
+            var image = this.Find<Image>("ResizerShow");
+            var res = (GateBase.global_visible ? "ResizerShow" : "ResizerHide").GetResource<Image>() ?? new();
+            image.Source = res.Source;
         }
     }
 }
