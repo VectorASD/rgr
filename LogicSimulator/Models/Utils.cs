@@ -7,11 +7,9 @@ using Avalonia.Media.Imaging;
 using Avalonia;
 using Avalonia.Media;
 using System.Text.Json;
-using LogicSimulator.ViewModels;
 using System.Collections;
 using System.Diagnostics;
 using System;
-using Avalonia.Controls.Shapes;
 
 namespace LogicSimulator.Models {
     public static class Utils {
@@ -242,7 +240,7 @@ namespace LogicSimulator.Models {
         }
 
         private static string ToJSONHandler(string str) {
-            if (str.Length > 1 && str[0] == '$' && str[1] <= '9' && str[1] >= '0') return str[1..]; // unescape NUM
+            if (str.Length > 1 && str[0] == '$' && (str[1] <= '9' && str[1] >= '0' || str[1] == '-')) return str[1..]; // unescape NUM
             return str switch {
                 "null" => "null",
                 "undefined" => "undefined",
@@ -415,7 +413,7 @@ namespace LogicSimulator.Models {
         private static string YAML_ParseNum(ref string yaml, ref int pos) {
             char c = yaml[pos++];
             StringBuilder sb = new();
-            while ("0123456789.".Contains(c)) {
+            while ("0123456789.-".Contains(c)) {
                 sb.Append(c);
                 c = yaml[pos++];
             }
@@ -429,7 +427,7 @@ namespace LogicSimulator.Models {
             pos--;
             if (first == '"')
                 return '"' + YAML_ParseString(ref yaml, ref pos) + '"';
-            if ("0123456789".Contains(first))
+            if ("0123456789-".Contains(first))
                 return YAML_ParseNum(ref yaml, ref pos);
 
             string str = YAML_ParseString(ref yaml, ref pos);
