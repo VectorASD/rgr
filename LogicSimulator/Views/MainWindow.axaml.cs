@@ -15,11 +15,12 @@ using System.Linq;
 namespace LogicSimulator.Views {
     public partial class MainWindow: Window {
         readonly MainWindowViewModel mwvm;
+        readonly Mapper map;
 
         public MainWindow() {
             Mapper.CreateItemF = CreateItem;
             Mapper.item_types = Enumerable.Range(0, 12).Select(CreateItem).ToArray();
-            var map = ViewModelBase.map;
+            map = ViewModelBase.map;
             map.Marker_SetState = Marker_SetState;
             map.Marker2_SetState = Marker2_SetState;
 
@@ -118,7 +119,7 @@ namespace LogicSimulator.Views {
          * Соединения
          */
 
-        Line? old_join;
+        Line? old_join, join_line;
         bool join_start;
 
         string? JoinPressed(Point pos) {
@@ -164,8 +165,8 @@ namespace LogicSimulator.Views {
             if (delete_join) @join?.Delete();
         }
         JoinedItems? JoinTapped() {
-            if (old_join == null) return null;
-            if (!JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join)) return null;
+            if (join_line == null) return null;
+            if (!JoinedItems.arrow_to_join.TryGetValue(join_line, out var @join)) return null;
             return @join;
         }
 
@@ -237,7 +238,7 @@ namespace LogicSimulator.Views {
             panel.PointerPressed += (object? sender, PointerPressedEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) {
                     last_item = @control is Ellipse @ellipse ? @ellipse : null;
-                    old_join = @control is Line @line ? @line : null;
+                    old_join = join_line = @control is Line @line ? @line : null;
                     map.Press(GetGate(@control), (string?) @control.Tag, e.GetCurrentPoint(canv).Position);
                 }
             };
