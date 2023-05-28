@@ -1,5 +1,6 @@
 ﻿using LogicSimulator.Models;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
@@ -22,6 +23,8 @@ namespace LogicSimulator.ViewModels {
             Log.NewLine += LogHandler;
             Comm = ReactiveCommand.Create<string, Unit>(n => { FuncComm(n); return new Unit(); });
             NewItem = ReactiveCommand.Create<Unit, Unit>(_ => { FuncNewItem(); return new Unit(); });
+            ResizerOption = ReactiveCommand.Create<Unit, Unit>(_ => { FuncResizerOption?.Invoke(); return new Unit(); });
+            SimulateOption = ReactiveCommand.Create<Unit, Unit>(_ => { FuncSimulateOption?.Invoke(); return new Unit(); });
         }
 
         public static IGate[] ItemTypes { get => Mapper.item_types; }
@@ -55,17 +58,20 @@ namespace LogicSimulator.ViewModels {
         public void FuncComm(string Comm) {
             CommUsed?.Invoke(Comm);
         }
-
-        public static Project? GetCurProject => CurrentProj;
-
         public ReactiveCommand<string, Unit> Comm { get; }
 
         private static void FuncNewItem() {
             CurrentProj?.AddScheme(null);
         }
-
         public ReactiveCommand<Unit, Unit> NewItem { get; }
 
+        public static Project? GetCurProject => CurrentProj;
         public static bool LockSelfConnect { get => map.lock_self_connect; set => map.lock_self_connect = value; }
+
+        public Action? FuncResizerOption;
+        public ReactiveCommand<Unit, Unit> ResizerOption { get; }
+
+        public Action? FuncSimulateOption;
+        public ReactiveCommand<Unit, Unit> SimulateOption { get; }
     }
 }

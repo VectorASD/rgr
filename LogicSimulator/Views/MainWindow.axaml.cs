@@ -8,19 +8,33 @@ using Avalonia.Media;
 using LogicSimulator.Models;
 using LogicSimulator.ViewModels;
 using LogicSimulator.Views.Shapes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace LogicSimulator.Views {
     public partial class MainWindow: Window {
         readonly MainWindowViewModel mwvm;
+        readonly Mapper map;
 
         public MainWindow() {
             Mapper.CreateItemF = CreateItem;
             Mapper.item_types = Enumerable.Range(0, 12).Select(CreateItem).ToArray();
-            var map = ViewModelBase.map;
+            map = ViewModelBase.map;
             map.Marker_SetState = Marker_SetState;
             map.Marker2_SetState = Marker2_SetState;
+
+            map.SetEllipseMarker = SetEllipseMarker;
+            map.SetMarkerColor = SetMarkerColor;
+            map.MarkerCenter = MarkerCenter;
+            map.MarkerToDistantor = MarkerToDistantor;
+
+            map.JoinPressed = JoinPressed;
+            map.JoinMoved = JoinMoved;
+            map.JoinReleased = JoinReleased;
+            map.JoinTapped = JoinTapped;
+            map.CreateJoin = CreateJoin;
+            map.UpdateNewJoins = UpdateNewJoins;
 
             mwvm = new MainWindowViewModel();
             DataContext = mwvm;
@@ -62,6 +76,23 @@ namespace LogicSimulator.Views {
             if (h != null) marker2.Height = (double) h;
         }
 
+        // Дальше идут методы исправления проблем MVVM элитного уровня сложности ;'-}
+
+        Ellipse? last_item;
+        Ellipse? marker_A; // Заменяет в картографе marker_circle
+        void SetEllipseMarker(bool clear) => marker_A = clear ? null : last_item;
+        void SetMarkerColor(ISolidColorBrush fill, ISolidColorBrush stroke) {
+            if (marker_A == null) return;
+            marker_A.Fill = fill;
+            marker_A.Stroke = stroke;
+        }
+        Point? MarkerCenter() => marker_A?.Center(canv);
+        Distantor? MarkerToDistantor() {
+            if (marker_A == null) return null;
+            var gate = GetGate(marker_A) ?? throw new Exception("Чё?!"); // Такого не бывает
+            return gate.GetPin(marker_A);
+        }
+
         /*
          * Фабрикатор IGate
          */
@@ -82,6 +113,72 @@ namespace LogicSimulator.Views {
                 11 => new AND_8(),
                 _ => new AND_2(),
             };
+        }
+
+        /*
+         * Соединения
+         */
+
+        Line? old_join, join_line;
+        bool join_start;
+
+        string? JoinPressed(Point pos) {
+            if (old_join == null) return null;
+
+            JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join2);
+            if (@join2 == null) return null;
+
+            /* if (marked_line == @join2) {
+                marked_line = null;
+                UpdateMarker();
+            }*/
+
+            var dist_a = old_join.StartPoint.Hypot(pos);
+            var dist_b = old_join.EndPoint.Hypot(pos);
+            join_start = dist_a > dist_b;
+
+            Marker_SetState(true,
+                join_start ? old_join.StartPoint : pos,
+                join_start ? pos : old_join.EndPoint);
+            old_join.IsVisible = false;
+            return join_start ? @join2.A.tag : @join2.B.tag;
+            // marker_mode = CalcMode(join_start ? @join2.A.tag : @join2.B.tag);
+        }
+        void JoinMoved(Point pos) {
+            var p = MarkerCenter() ?? pos;
+            Marker_SetState(null, join_start ? null : p, join_start ? p : null);
+        }
+        void JoinReleased(bool delete_join) {
+            if (old_join == null) return;
+            JoinedItems.arrow_to_join.TryGetValue(old_join, out var @join);
+            var p = MarkerToDistantor();
+            if (p != null && @join != null) {
+                @join.Delete();
+
+                var newy = join_start ? new JoinedItems(@join.A, p) : new JoinedItems(p, @join.B);
+                canv.Children.Add(newy.line);
+            } else old_join.IsVisible = true;
+
+            Marker_SetState(false, null, null);
+            old_join = null;
+
+            if (delete_join) @join?.Delete();
+        }
+        JoinedItems? JoinTapped() {
+            if (join_line == null) return null;
+            if (!JoinedItems.arrow_to_join.TryGetValue(join_line, out var @join)) return null;
+            return @join;
+        }
+
+        readonly List<JoinedItems> joins = new();
+        void CreateJoin(bool add_to_list, Distantor start, Distantor end) {
+            var newy = new JoinedItems(start, end);
+            canv.Children.Add(newy.line);
+            if (add_to_list) joins.Add(newy);
+        }
+        void UpdateNewJoins() {
+            foreach (var join in joins) join.Update();
+            joins.Clear();
         }
 
         /*
@@ -112,7 +209,7 @@ namespace LogicSimulator.Views {
             }
         }
         private Control FixItem(Control old, Canvas canv, Point pos) {
-            int mode = ViewModelBase.map.GetMode();
+            int mode = map.GetMode();
             Control? item = null;
             if (mode != 5 && mode != 6 && mode != 7 && mode != 8) return old;
 
@@ -125,11 +222,36 @@ namespace LogicSimulator.Views {
             return item ?? new Canvas() { Tag = "Scene" };
         }
 
-        public void AddWindow() {
-            var canv = this.Find<Canvas>("Canvas");
-            var map = ViewModelBase.map;
+        private Canvas canv = new();
 
-            map.canv = canv;
+        public void Press(Control control, Point pos) {
+            last_item = control is Ellipse @ellipse ? @ellipse : null;
+            old_join = join_line = control is Line @line ? @line : null;
+            map.Press(GetGate(control), (string?) control.Tag, pos);
+        }
+        public void Move(Control control, Point pos) {
+            var item = FixItem(control, canv, pos);
+            last_item = item is Ellipse @ellipse ? @ellipse : null;
+            map.Move(GetGate(item), (string?) item.Tag, pos);
+        }
+        public int Release(Control control, Point pos) {
+            var item = FixItem(control, canv, pos);
+            last_item = item is Ellipse @ellipse ? @ellipse : null;
+            int mode = map.Release(GetGate(item), (string?) item.Tag, pos);
+
+            bool tap = map.tapped;
+            if (tap && mode == 1) {
+                var newy = map.GenSelectedItem();
+                newy.Move(map.tap_pos);
+                map.AddItem(newy);
+            }
+
+            return mode;
+        }
+
+        public void AddWindow() {
+            canv = this.Find<Canvas>("Canvas");
+
             if (canv == null) return; // Такого не бывает
 
             canv.Children.Add(marker);
@@ -139,28 +261,16 @@ namespace LogicSimulator.Views {
             if (panel == null) return; // Такого не бывает
 
             panel.PointerPressed += (object? sender, PointerPressedEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) map.Press(@control, e.GetCurrentPoint(canv).Position);
+                if (e.Source != null && e.Source is Control @control)
+                    Press(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerMoved += (object? sender, PointerEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) {
-                    var pos = e.GetCurrentPoint(canv).Position;
-                    map.Move(FixItem(@control, canv, pos), pos);
-                }
+                if (e.Source != null && e.Source is Control @control)
+                    Move(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerReleased += (object? sender, PointerReleasedEventArgs e) => {
-                if (e.Source != null && e.Source is Control @control) {
-                    var pos = e.GetCurrentPoint(canv).Position;
-                    int mode = map.Release(FixItem(@control, canv, pos), pos);
-
-                    bool tap = map.tapped;
-                    if (tap && mode == 1) {
-                        if (canv == null) return; // Такого не бывает
-
-                        var newy = map.GenSelectedItem();
-                        newy.Move(map.tap_pos);
-                        map.AddItem(newy);
-                    }
-                }
+                if (e.Source != null && e.Source is Control @control)
+                    Release(@control, e.GetCurrentPoint(canv).Position);
             };
             panel.PointerWheelChanged += (object? sender, PointerWheelEventArgs e) => {
                 if (e.Source != null && e.Source is Control @control) map.WheelMove(GetGate(@control), (string?) @control.Tag, e.Delta.Y, e.GetCurrentPoint(canv).Position);
@@ -170,6 +280,8 @@ namespace LogicSimulator.Views {
             };
 
             mwvm.CommUsed += FuncComm;
+            mwvm.FuncResizerOption = FuncResizerOption;
+            mwvm.FuncSimulateOption = FuncSimulateOption;
 
             map.AddItemToCanvas += (IGate gate) => {
                 if (gate is UserControl @UC) canv.Children.Add(@UC);
@@ -234,14 +346,12 @@ namespace LogicSimulator.Views {
         public void Update() {
             Log.Write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    Текущий проект:\n" + ViewModelBase.CurrentProj);
 
-            ViewModelBase.map.ImportScheme();
+            map.ImportScheme();
             mwvm.Update();
             Width++; // ГОРАААААААААААААЗДО больше толку, чем от всех этих НЕРАБОЧИХ через раз RaisePropertyChanged
         }
 
-        public void FuncComm(string Comm) {
-            var map = ViewModelBase.map;
-
+        private void FuncComm(string Comm) {
             switch (Comm) {
             case "Create":
                 var newy = map.filer.CreateProject();
@@ -273,6 +383,20 @@ namespace LogicSimulator.Views {
                 Close();
                 break;
             }
+        }
+
+        private void FuncResizerOption() {
+            GateBase.global_visible = !GateBase.global_visible;
+            map.GlobalUpdate();
+            var image = this.Find<Image>("ResizerShow");
+            var res = (GateBase.global_visible ? "ResizerShow" : "ResizerHide").GetResource<Image>() ?? new();
+            image.Source = res.Source;
+        }
+
+        private void FuncSimulateOption() {
+            var image = this.Find<Image>("Simulate");
+            var res = (map.sim.StartStop() ? "Play" : "Pause").GetResource<Image>() ?? new();
+            image.Source = res.Source;
         }
     }
 }

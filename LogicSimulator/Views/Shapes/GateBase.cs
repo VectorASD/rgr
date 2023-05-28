@@ -26,6 +26,7 @@ namespace LogicSimulator.Views.Shapes {
         protected bool use_right;
         protected bool use_bottom;
         private readonly int[][] pin_data;
+        readonly Image resizer_item;
 
         public GateBase() {
             var sides = Sides;
@@ -86,6 +87,14 @@ namespace LogicSimulator.Views.Shapes {
             for (int i = 0; i < outs; i++) joins_out[i] = new();
 
             MyRecalcSizes();
+
+            resizer_item = this.FindLogicalDescendantsOfType<Image>().First(x => (string?) x.Tag == "Resizer") ?? new();
+            GlobalUpdate();
+        }
+
+        public static bool global_visible = false;
+        public void GlobalUpdate() {
+            resizer_item.IsVisible = global_visible;
         }
 
         /*
@@ -327,6 +336,8 @@ namespace LogicSimulator.Views.Shapes {
             foreach (var join in joins_in) join?.Delete();
             foreach (var joins in joins_out)
                 foreach (var join in joins.ToArray()) join.Delete();
+
+            this.Remove();
         }
 
         public void SetJoinColor(int o_num, bool value) {
