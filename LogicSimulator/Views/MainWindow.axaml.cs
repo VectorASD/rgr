@@ -275,6 +275,7 @@ namespace LogicSimulator.Views {
 
             mwvm.CommUsed += FuncComm;
             mwvm.FuncResizerOption = FuncResizerOption;
+            mwvm.FuncSimulateOption = FuncSimulateOption;
 
             map.AddItemToCanvas += (IGate gate) => {
                 if (gate is UserControl @UC) canv.Children.Add(@UC);
@@ -344,7 +345,7 @@ namespace LogicSimulator.Views {
             Width++; // ГОРАААААААААААААЗДО больше толку, чем от всех этих НЕРАБОЧИХ через раз RaisePropertyChanged
         }
 
-        public void FuncComm(string Comm) {
+        private void FuncComm(string Comm) {
             switch (Comm) {
             case "Create":
                 var newy = map.filer.CreateProject();
@@ -383,6 +384,12 @@ namespace LogicSimulator.Views {
             map.GlobalUpdate();
             var image = this.Find<Image>("ResizerShow");
             var res = (GateBase.global_visible ? "ResizerShow" : "ResizerHide").GetResource<Image>() ?? new();
+            image.Source = res.Source;
+        }
+
+        private void FuncSimulateOption() {
+            var image = this.Find<Image>("Simulate");
+            var res = (map.sim.StartStop() ? "Play" : "Pause").GetResource<Image>() ?? new();
             image.Source = res.Source;
         }
     }

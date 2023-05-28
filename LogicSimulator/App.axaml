@@ -14,5 +14,7 @@
 	<Application.Resources>
 		<Image x:Key="ResizerShow" Source="/Assets/ResizerShow.png"/>
 		<Image x:Key="ResizerHide" Source="/Assets/ResizerHide.png"/>
+		<Image x:Key="Pause" Source="/Assets/Pause.png"/>
+		<Image x:Key="Play" Source="/Assets/Play.png"/>
 	</Application.Resources>
 </Application>

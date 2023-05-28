@@ -54,6 +54,9 @@
 					<Button Command="{Binding ResizerOption}" Padding="0" Background="#0000">
 						<Image Width="48" Height="48" Source="/Assets/ResizerHide.png" Name="ResizerShow"/>
 					</Button>
+					<Button Command="{Binding SimulateOption}" Padding="0" Background="#0000">
+						<Image Width="48" Height="48" Source="/Assets/Pause.png" Name="Simulate"/>
+					</Button>
 				</StackPanel>
 			</Panel>
 			<ListBox Items="{Binding ItemTypes}" SelectedIndex="{Binding SelectedItem}" Name="Gates" VirtualizationMode="None">

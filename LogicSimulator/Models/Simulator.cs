@@ -37,8 +37,9 @@ namespace LogicSimulator.Models
         private Task? task;
         private bool stop_sim = false;
         public bool lock_sim = false;
+        private bool my_stop_sim = false;
         public void Start() {
-            if (task != null || lock_sim) return;
+            if (task != null || lock_sim || my_stop_sim) return;
             stop_sim = false;
             task = Task.Run(async () => {
                 for (; ; ) {
@@ -55,6 +56,12 @@ namespace LogicSimulator.Models
             stop_sim = true;
             task.GetAwaiter().GetResult();
             task = null;
+        }
+        public bool StartStop() {
+            my_stop_sim = !my_stop_sim;
+            if (my_stop_sim) Stop();
+            else Start();
+            return my_stop_sim;
         }
 
 

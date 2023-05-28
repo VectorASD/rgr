@@ -24,6 +24,7 @@ namespace LogicSimulator.ViewModels {
             Comm = ReactiveCommand.Create<string, Unit>(n => { FuncComm(n); return new Unit(); });
             NewItem = ReactiveCommand.Create<Unit, Unit>(_ => { FuncNewItem(); return new Unit(); });
             ResizerOption = ReactiveCommand.Create<Unit, Unit>(_ => { FuncResizerOption?.Invoke(); return new Unit(); });
+            SimulateOption = ReactiveCommand.Create<Unit, Unit>(_ => { FuncSimulateOption?.Invoke(); return new Unit(); });
         }
 
         public static IGate[] ItemTypes { get => Mapper.item_types; }
@@ -69,5 +70,8 @@ namespace LogicSimulator.ViewModels {
 
         public Action? FuncResizerOption;
         public ReactiveCommand<Unit, Unit> ResizerOption { get; }
+
+        public Action? FuncSimulateOption;
+        public ReactiveCommand<Unit, Unit> SimulateOption { get; }
     }
 }
